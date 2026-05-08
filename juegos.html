@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juegos - E.U UNEDID</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+      min-height:100vh;font-family:'Poppins',Arial,sans-serif;color:white;
+      background:#0f0f1a;
+      background-image:
+        radial-gradient(ellipse at 20% 10%,rgba(59,130,246,0.09) 0%,transparent 60%),
+        radial-gradient(ellipse at 80% 85%,rgba(139,92,246,0.09) 0%,transparent 60%);
+    }
+    .bg-dots{
+      position:fixed;top:0;left:0;width:100%;height:100%;
+      pointer-events:none;z-index:0;
+      background-image:radial-gradient(rgba(255,255,255,0.025) 1px,transparent 1px);
+      background-size:30px 30px;
+    }
+    #progress-bar{
+      position:fixed;top:0;left:0;height:3px;width:0%;z-index:3000;
+      background:linear-gradient(90deg,#facc15,#f97316,#ec4899,#8b5cf6,#3b82f6);
+      transition:width 0.1s;
+    }
+    .hero{position:relative;z-index:1;text-align:center;padding:52px 20px 22px;}
+    .titulo-typing{
+      font-size:clamp(1.6rem,4.5vw,3.2rem);font-weight:900;
+      letter-spacing:4px;text-transform:uppercase;
+      background:linear-gradient(135deg,#facc15,#f97316,#ec4899,#8b5cf6,#3b82f6);
+      background-size:300% auto;
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+      animation:titleGradient 5s ease infinite;
+      filter:drop-shadow(0 0 28px rgba(250,204,21,0.25));
+    }
+    @keyframes titleGradient{0%{background-position:0% center}50%{background-position:100% center}100%{background-position:0% center}}
+    .cursor{display:inline-block;-webkit-text-fill-color:#facc15;font-weight:900;animation:parpadeo 0.7s infinite;}
+    @keyframes parpadeo{0%,100%{opacity:1}50%{opacity:0}}
+    .hero-line{
+      width:100px;height:3px;border-radius:2px;margin:14px auto 0;
+      background:linear-gradient(90deg,#facc15,#f97316,#ec4899);
+      background-size:200%;animation:lineSlide 3s ease infinite;
+    }
+    @keyframes lineSlide{0%{width:70px;background-position:0%}50%{width:160px;background-position:100%}100%{width:70px;background-position:0%}}
+    .hero-sub{margin-top:10px;color:rgba(255,255,255,0.45);font-size:0.8rem;letter-spacing:3px;text-transform:uppercase;}
+    .menu{
+      display:flex;flex-wrap:nowrap;justify-content:center;
+      gap:16px;padding:20px 30px 10px;width:100%;overflow-x:auto;
+      position:relative;z-index:1;
+    }
+    .item{
+      flex:0 0 auto;width:170px;height:110px;transform:skewX(-18deg);overflow:hidden;
+      position:relative;cursor:pointer;
+      box-shadow:0 6px 24px rgba(0,0,0,0.5);
+      transition:transform 0.3s ease,box-shadow 0.3s ease;
+      border:2px solid rgba(255,255,255,0.12);border-radius:4px;text-decoration:none;
+    }
+    .item:hover{transform:skewX(-18deg) translateY(-6px);box-shadow:0 14px 36px rgba(139,92,246,0.45);border-color:rgba(139,92,246,0.6);}
+    .item.active{border-color:#8b5cf6;box-shadow:0 0 0 2px #8b5cf6,0 10px 30px rgba(139,92,246,0.5);}
+    .item img{transform:skewX(18deg) scale(1.35);width:100%;height:100%;object-fit:cover;}
+    .item .label{
+      position:absolute;bottom:0;left:0;right:0;padding:8px;
+      background:linear-gradient(to top,rgba(10,5,40,0.92),transparent);
+      color:white;font-size:0.88rem;font-weight:700;
+      text-transform:uppercase;letter-spacing:1.5px;
+      transform:skewX(18deg);text-align:center;
+    }
+    .item.active .label{background:linear-gradient(to top,rgba(139,92,246,0.85),transparent);}
+    .game-section{display:none;flex-direction:column;align-items:center;padding:30px 20px 40px;position:relative;z-index:1;}
+    .game-section.active{display:flex;}
+    .game-section h2{
+      position:relative;
+      font-size:clamp(1.1rem,2.5vw,1.6rem);font-weight:900;
+      letter-spacing:2px;text-transform:uppercase;
+      margin-bottom:10px;padding-bottom:12px;
+      background:linear-gradient(135deg,#facc15,#f97316,#ec4899);
+      background-size:200% auto;
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+      animation:titleGradient 4s ease infinite;
+      filter:drop-shadow(0 0 14px rgba(250,204,21,0.2));
+    }
+    .game-section h2::after{
+      content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+      height:3px;border-radius:2px;
+      background:linear-gradient(90deg,#facc15,#ec4899,#8b5cf6);
+      background-size:200%;animation:lineSlide 3s ease infinite;
+    }
+    .game-section h2:hover{animation:shimmer 1.5s ease infinite,titleGradient 4s ease infinite;}
+    @keyframes shimmer{
+      0%{filter:drop-shadow(0 0 14px rgba(250,204,21,0.2))}
+      50%{filter:drop-shadow(0 0 28px rgba(139,92,246,0.6)) drop-shadow(0 0 10px rgba(236,72,153,0.4))}
+      100%{filter:drop-shadow(0 0 14px rgba(250,204,21,0.2))}
+    }
+    .game-section p{margin-bottom:16px;color:rgba(255,255,255,0.6);text-align:center;max-width:700px;font-size:0.92rem;line-height:1.7;}
+    .game-section p b{color:#facc15;-webkit-text-fill-color:#facc15;}
+    canvas{
+      border:2px solid rgba(139,92,246,0.4);border-radius:12px;
+      box-shadow:0 12px 40px rgba(0,0,0,0.6),0 0 0 1px rgba(139,92,246,0.2);display:block;
+    }
+    .score{font-size:1.05rem;margin-top:14px;letter-spacing:1px;color:rgba(255,255,255,0.8);font-weight:600;}
+    .btn{
+      margin-top:14px;padding:10px 28px;
+      background:linear-gradient(135deg,#8b5cf6,#3b82f6);
+      color:white;border:none;border-radius:50px;cursor:pointer;
+      font-weight:700;letter-spacing:1px;font-size:0.9rem;font-family:'Poppins',sans-serif;
+      box-shadow:0 6px 20px rgba(139,92,246,0.4);transition:all 0.3s;
+    }
+    .btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 10px 28px rgba(139,92,246,0.6);}
+    .chess-board{
+      display:grid;grid-template-columns:repeat(8,52px);grid-template-rows:repeat(8,52px);
+      border:3px solid rgba(139,92,246,0.5);border-radius:8px;overflow:hidden;
+      box-shadow:0 12px 40px rgba(0,0,0,0.6),0 0 0 1px rgba(139,92,246,0.2);
+    }
+    .chess-cell{width:52px;height:52px;display:flex;align-items:center;justify-content:center;font-size:32px;cursor:pointer;user-select:none;transition:background 0.15s;}
+    .chess-cell.light{background:#f0d9b5;}.chess-cell.dark{background:#b58863;}
+    .chess-cell.selected{box-shadow:inset 0 0 0 4px #8b5cf6;}
+    .chess-cell.valid{box-shadow:inset 0 0 0 4px rgba(46,204,113,0.8);}
+    #modoOscuro{
+      position:fixed;bottom:30px;left:28px;z-index:1000;
+      padding:12px 14px;border-radius:50%;border:none;cursor:pointer;
+      background:linear-gradient(135deg,#1e1b4b,#312e81);
+      font-size:18px;box-shadow:0 4px 20px rgba(139,92,246,0.35);
+      transition:transform 0.3s,box-shadow 0.3s;
+    }
+    #modoOscuro:hover{transform:scale(1.15) rotate(20deg);box-shadow:0 8px 30px rgba(139,92,246,0.5);}
+    .divider{
+      position:relative;z-index:1;width:80%;max-width:700px;
+      height:1px;margin:6px auto 0;
+      background:linear-gradient(90deg,transparent,rgba(139,92,246,0.4),transparent);
+    }
+    .nav-links{
+      position:relative;z-index:1;
+      display:flex;flex-wrap:wrap;justify-content:center;
+      gap:12px;padding:18px 20px 4px;
+    }
+    .nav-btn{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 22px;border-radius:50px;border:none;
+      font-family:'Poppins',sans-serif;font-size:0.85rem;font-weight:700;
+      letter-spacing:0.5px;cursor:pointer;text-decoration:none;color:#fff;
+      transition:all 0.3s ease;
+    }
+    .nav-btn.principal{background:linear-gradient(135deg,#1e3a8a,#3b82f6);box-shadow:0 5px 18px rgba(59,130,246,0.35);}
+    .nav-btn.principal:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 10px 26px rgba(59,130,246,0.55);}
+    .nav-btn.deportes{background:linear-gradient(135deg,#7c3aed,#8b5cf6);box-shadow:0 5px 18px rgba(139,92,246,0.35);}
+    .nav-btn.deportes:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 10px 26px rgba(139,92,246,0.55);}
+    .nav-btn.trabajo{background:linear-gradient(135deg,#be185d,#ec4899);box-shadow:0 5px 18px rgba(236,72,153,0.35);}
+    .nav-btn.trabajo:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 10px 26px rgba(236,72,153,0.55);}
+  </style>
+</head>
+<body>
+
+<div class="bg-dots"></div>
+<div id="progress-bar"></div>
+<button id="modoOscuro">🌙</button>
+
+<div class="hero">
+  <div class="titulo-typing"><span id="titulo-texto"></span><span class="cursor">_</span></div>
+  <div class="hero-line"></div>
+  <p class="hero-sub">Selecciona un deporte y juega</p>
+</div>
+
+<nav class="menu">
+  <a class="item" data-sport="indoor">
+    <img src="https://images.unsplash.com/photo-1552667466-07770ae110d0?w=600" alt="Indoor">
+    <div class="label">Indoor</div>
+  </a>
+  <a class="item" data-sport="baloncesto">
+    <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?w=600" alt="Baloncesto">
+    <div class="label">Baloncesto</div>
+  </a>
+  <a class="item" data-sport="ecuavoly">
+    <img src="https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?w=600" alt="Ecuavoly">
+    <div class="label">Ecuavoly</div>
+  </a>
+  <a class="item" data-sport="natacion">
+    <img src="https://images.unsplash.com/photo-1530549387789-4c1017266635?w=600" alt="Natación">
+    <div class="label">Natación</div>
+  </a>
+  <a class="item" data-sport="ajedrez">
+    <img src="https://images.unsplash.com/photo-1529699211952-734e80c4d42b?w=600" alt="Ajedrez">
+    <div class="label">Ajedrez</div>
+  </a>
+  <a class="item" data-sport="atletismo">
+    <img src="https://images.unsplash.com/photo-1571008887538-b36bb32f4571?w=600" alt="Atletismo">
+    <div class="label">Atletismo</div>
+  </a>
+</nav>
+
+<div class="nav-links">
+  <a href="index.html" class="nav-btn principal">🏫 Principal</a>
+  <a href="Deportes.html" class="nav-btn deportes">🥇 Deportes</a>
+  <a href="Trabajo.html" class="nav-btn trabajo">🖥️ XAMPP</a>
+</div>
+
+<div class="divider"></div>
+
+<section id="game-indoor" class="game-section">
+  <h2>⚽ Fútbol Indoor · Tanda de Penales</h2>
+  <p>Mueve el mouse para apuntar y haz clic para patear. ¡Mete 5 goles antes de fallar 3! <b>Al meter 3 goles el portero se acelera.</b></p>
+  <canvas id="indoorCanvas" width="600" height="400"></canvas>
+  <div class="score">Goles: <span id="indoor-goles">0</span> &nbsp;·&nbsp; Fallos: <span id="indoor-fallos">0</span></div>
+  <button class="btn" data-reset="indoor">Reiniciar</button>
+</section>
+
+<section id="game-baloncesto" class="game-section">
+  <h2>🏀 Baloncesto · Tiro al Aro</h2>
+  <p>Mantén presionado el clic para cargar fuerza, suelta para lanzar. La <b>línea guía</b> te ayuda a apuntar. ¡Encesta <b>10 veces</b> para ganar! Al llegar a <b>5 puntos</b> aparece un bloqueador.</p>
+  <canvas id="baloncestoCanvas" width="600" height="400"></canvas>
+  <div class="score">Encestes: <span id="basket-score">0</span> / 10 &nbsp;·&nbsp; Intentos: <span id="basket-intentos">0</span></div>
+  <button class="btn" data-reset="baloncesto">Reiniciar</button>
+</section>
+
+<section id="game-ecuavoly" class="game-section">
+  <h2>🏐 Ecuavoly</h2>
+  <p>Mueve la barra con las flechas ← → o con el mouse. ¡No dejes caer la pelota! <b>Velocidad aumentada.</b></p>
+  <canvas id="volleyCanvas" width="700" height="400"></canvas>
+  <div class="score">Puntos: <span id="volley-score">0</span> &nbsp;·&nbsp; Vidas: <span id="volley-lives">3</span></div>
+  <button class="btn" data-reset="ecuavoly">Reiniciar</button>
+</section>
+
+<section id="game-natacion" class="game-section">
+  <h2>🏊‍♀️ Natación · 50m Libre</h2>
+  <p>Presiona <b>A</b> y <b>L</b> alternadamente lo más rápido que puedas. ¡Gana al rival!</p>
+  <canvas id="swimCanvas" width="700" height="300"></canvas>
+  <div class="score">Tiempo: <span id="swim-time">0.0</span>s</div>
+  <button class="btn" data-reset="natacion">Reiniciar</button>
+</section>
+
+<section id="game-ajedrez" class="game-section">
+  <h2>♟ Ajedrez · Mini Tablero</h2>
+  <p>Haz clic en una pieza blanca y luego en una casilla verde para moverla. Las negras juegan automáticamente.</p>
+  <div id="chess-board" class="chess-board"></div>
+  <div class="score" id="chess-status">Turno: Blancas</div>
+  <button class="btn" data-reset="ajedrez">Reiniciar</button>
+</section>
+
+<section id="game-atletismo" class="game-section">
+  <h2>🏃‍♂️ Atletismo · Carrera con Obstáculos</h2>
+  <p>Presiona <b>Espacio</b> o haz clic en el canvas para saltar las vallas.</p>
+  <canvas id="trackCanvas" width="700" height="300"></canvas>
+  <div class="score">Distancia: <span id="track-dist">0</span>m</div>
+  <button class="btn" data-reset="atletismo">Reiniciar</button>
+</section>
+
+<script>
+const audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+function _unlock(){if(audioCtx.state==='suspended')audioCtx.resume();document.removeEventListener('click',_unlock);document.removeEventListener('keydown',_unlock);}
+document.addEventListener('click',_unlock);document.addEventListener('keydown',_unlock);
+function sonidoTecla(){
+  if(audioCtx.state==='suspended')audioCtx.resume();
+  const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);
+  o.frequency.value=180+Math.random()*80;o.type='square';
+  g.gain.setValueAtTime(0.06,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.06);
+  o.start(audioCtx.currentTime);o.stop(audioCtx.currentTime+0.06);
+  const buf=audioCtx.createBuffer(1,audioCtx.sampleRate*0.05,audioCtx.sampleRate);
+  const d=buf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*0.12;
+  const n=audioCtx.createBufferSource(),ng=audioCtx.createGain();n.buffer=buf;n.connect(ng);ng.connect(audioCtx.destination);
+  ng.gain.setValueAtTime(0.1,audioCtx.currentTime);ng.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.05);n.start(audioCtx.currentTime);
+}
+function sonidoEnter(){
+  const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);
+  o.frequency.value=100;o.type='sine';g.gain.setValueAtTime(0.1,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.2);
+  o.start(audioCtx.currentTime);o.stop(audioCtx.currentTime+0.2);
+}
+const TXT="JUEGOS DE LA UNEDID",elT=document.getElementById('titulo-texto');
+let iL=0;
+function escribir(){
+  if(iL<TXT.length){elT.textContent+=TXT[iL];if(TXT[iL]!==' ')sonidoTecla();iL++;
+  const delay=TXT[iL]===' '?40:80+Math.random()*40;setTimeout(escribir,delay);}
+  else sonidoEnter();
+}
+setTimeout(escribir,600);
+const items=document.querySelectorAll('.item'),sections=document.querySelectorAll('.game-section'),stops={};
+items.forEach(item=>item.addEventListener('click',e=>{
+  e.preventDefault();const s=item.dataset.sport;
+  items.forEach(i=>i.classList.remove('active'));item.classList.add('active');
+  sections.forEach(x=>x.classList.remove('active'));document.getElementById('game-'+s).classList.add('active');
+  startGame(s);
+}));
+document.querySelectorAll('[data-reset]').forEach(b=>b.addEventListener('click',()=>startGame(b.dataset.reset)));
+function startGame(s){
+  if(stops[s])stops[s]();
+  const fn={indoor:startIndoor,baloncesto:startBaloncesto,ecuavoly:startVoley,natacion:startNatacion,ajedrez:startAjedrez,atletismo:startAtletismo};
+  if(fn[s])stops[s]=fn[s]();
+}
+
+/* =====================================================================
+   INDOOR — portero se acelera al anotar 3 goles
+   ===================================================================== */
+function startIndoor(){
+  const c=document.getElementById('indoorCanvas'),ctx=c.getContext('2d');
+  const gE=document.getElementById('indoor-goles'),fE=document.getElementById('indoor-fallos');
+  let goles=0,fallos=0,mouse={x:c.width/2,y:60},ball=null;
+  // Posición y signo de dirección del portero separados de la velocidad
+  let gkX=c.width/2-30,gkSign=1;
+  let raf,done=false;
+
+  // Velocidad base 2.5 → sube a 5.5 cuando hay 3+ goles
+  function gkSpd(){return goles>=3?5.5:2.5;}
+
+  function draw(){
+    ctx.fillStyle='#2d6a4f';ctx.fillRect(0,0,c.width,c.height);
+    ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.strokeRect(60,30,c.width-120,200);
+    ctx.fillStyle='rgba(255,255,255,0.08)';ctx.fillRect(c.width/2-100,25,200,180);
+    ctx.fillStyle='#fff';ctx.fillRect(c.width/2-100,25,200,10);
+    // Aviso de velocidad alta
+    if(goles>=3){
+      ctx.fillStyle='#facc15';ctx.font='bold 12px Arial';
+      ctx.fillText('⚡ PORTERO RÁPIDO',c.width/2-62,18);
+    }
+    ctx.fillStyle='#e94560';ctx.fillRect(gkX,35,60,25);
+    ctx.fillStyle='#fff';ctx.font='bold 11px Arial';ctx.fillText('PORTERO',gkX+2,52);
+    ctx.strokeStyle='rgba(255,255,0,0.9)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(mouse.x,mouse.y,13,0,Math.PI*2);ctx.stroke();
+    ctx.strokeStyle='rgba(255,255,255,0.3)';ctx.beginPath();ctx.moveTo(c.width/2,c.height-30);ctx.lineTo(mouse.x,mouse.y);ctx.stroke();
+    const bx=ball?ball.x:c.width/2,by=ball?ball.y:c.height-30;
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(bx,by,10,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#333';ctx.lineWidth=2;ctx.stroke();
+    ctx.fillStyle='rgba(0,0,0,0.45)';ctx.fillRect(0,c.height-25,c.width,25);
+    ctx.fillStyle='#fff';ctx.font='13px Arial';ctx.fillText('Apunta con el mouse y haz clic para patear',15,c.height-7);
+  }
+
+  function loop(){
+    if(!done){
+      gkX+=gkSpd()*gkSign;
+      if(gkX<c.width/2-100||gkX>c.width/2+40)gkSign*=-1;
+    }
+    if(ball){
+      ball.t+=0.045;ball.x=ball.sx+(ball.tx-ball.sx)*ball.t;ball.y=ball.sy+(ball.ty-ball.sy)*ball.t;
+      if(ball.t>=1){
+        const bl=ball.x>gkX&&ball.x<gkX+60&&ball.y<65;
+        const ea=ball.x>c.width/2-100&&ball.x<c.width/2+100&&ball.y<55;
+        if(ea&&!bl)goles++;else fallos++;
+        gE.textContent=goles;fE.textContent=fallos;ball=null;
+        if(goles>=5){done=true;setTimeout(()=>alert('¡Ganaste! 5 goles'),50);}
+        else if(fallos>=3){done=true;setTimeout(()=>alert('Perdiste. Goles: '+goles),50);}
+      }
+    }
+    draw();raf=requestAnimationFrame(loop);
+  }
+  function onM(e){const r=c.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=Math.max(35,Math.min(e.clientY-r.top,200));}
+  function onC(){if(ball||done)return;ball={sx:c.width/2,sy:c.height-30,x:c.width/2,y:c.height-30,tx:mouse.x,ty:mouse.y,t:0};}
+  c.addEventListener('mousemove',onM);c.addEventListener('click',onC);loop();
+  return()=>{cancelAnimationFrame(raf);c.removeEventListener('mousemove',onM);c.removeEventListener('click',onC);};
+}
+
+/* =====================================================================
+   BALONCESTO — línea guía al apuntar + bloqueador desde 5 pts + ganar en 10
+   ===================================================================== */
+function startBaloncesto(){
+  const c=document.getElementById('baloncestoCanvas'),ctx=c.getContext('2d');
+  const sE=document.getElementById('basket-score'),iE=document.getElementById('basket-intentos');
+  let score=0,intentos=0,charging=false,power=0;
+  let ball={x:80,y:c.height-50,vx:0,vy:0,fly:false};
+  const hoop={x:c.width-100,y:120,w:60};
+
+  let blocker={x:c.width/2,y:85,w:55,h:20,dx:3.5};
+  let raf,done=false;
+
+  // 🔵 GUÍA MEJORADA (MISMO ESTILO, MÁS LARGA)
+  function drawGuide(){
+    if(ball.fly||done) return;
+    const p=charging?power:0;
+    if(p<5) return;
+
+    const svx=p*0.07, svy=-p*0.11;
+
+    ctx.save();
+    ctx.setLineDash([6,6]);
+    ctx.strokeStyle='rgba(255,220,0,0.6)';
+    ctx.lineWidth=2;
+
+    ctx.beginPath();
+    let sx=ball.x,sy=ball.y,vxi=svx,vyi=svy;
+    ctx.moveTo(sx,sy);
+
+    for(let i=0;i<120;i++){ // 🔥 más alta
+      sx+=vxi;
+      sy+=vyi;
+      vyi+=0.45;
+      if(sx<0||sx>c.width||sy>c.height)break;
+      ctx.lineTo(sx,sy);
+    }
+
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+  }
+
+  function draw(){
+    ctx.fillStyle='#264653';ctx.fillRect(0,0,c.width,c.height);
+    ctx.fillStyle='#8d5524';ctx.fillRect(0,c.height-30,c.width,30);
+
+    // tablero
+    ctx.fillStyle='#fff';ctx.fillRect(hoop.x+hoop.w,60,10,110);
+
+    // aro
+    ctx.strokeStyle='#e63946';ctx.lineWidth=5;
+    ctx.beginPath();ctx.moveTo(hoop.x,hoop.y);ctx.lineTo(hoop.x+hoop.w,hoop.y);ctx.stroke();
+
+    // red
+    ctx.strokeStyle='rgba(255,255,255,0.5)';ctx.lineWidth=1;
+    for(let i=0;i<=5;i++){
+      ctx.beginPath();
+      ctx.moveTo(hoop.x+i*(hoop.w/5),hoop.y);
+      ctx.lineTo(hoop.x+5+i*(hoop.w/5)*0.9,hoop.y+28);
+      ctx.stroke();
+    }
+
+    // bloqueador
+    if(score>=5){
+      ctx.fillStyle='#e94560';
+      ctx.fillRect(blocker.x,blocker.y,blocker.w,blocker.h);
+      ctx.strokeStyle='#fff';ctx.lineWidth=2;
+      ctx.strokeRect(blocker.x,blocker.y,blocker.w,blocker.h);
+      ctx.fillStyle='#fff';ctx.font='bold 10px Arial';
+      ctx.fillText('BLOCK',blocker.x+6,blocker.y+14);
+    }
+
+    // barra de fuerza (igual visual, pero limitada)
+    if(charging){
+      ctx.fillStyle='rgba(255,255,255,0.25)';
+      ctx.fillRect(20,20,200,16);
+
+      ctx.fillStyle=power<50?'#2ecc71':power<120?'#f4d35e':'#e94560';
+      ctx.fillRect(20,20,Math.min(power*2,200),16);
+
+      ctx.fillStyle='#fff';
+      ctx.font='11px Arial';
+      ctx.fillText('FUERZA',24,33);
+    }
+
+    drawGuide();
+
+    // pelota (MISMO DISEÑO)
+    ctx.fillStyle='#e76f51';
+    ctx.beginPath();
+    ctx.arc(ball.x,ball.y,15,0,Math.PI*2);
+    ctx.fill();
+
+    ctx.strokeStyle='#000';ctx.lineWidth=2;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(ball.x-15,ball.y);
+    ctx.lineTo(ball.x+15,ball.y);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(ball.x,ball.y-15);
+    ctx.lineTo(ball.x,ball.y+15);
+    ctx.stroke();
+
+    ctx.fillStyle='rgba(0,0,0,0.45)';
+    ctx.fillRect(0,c.height-25,c.width,25);
+    ctx.fillStyle='#fff';
+    ctx.font='13px Arial';
+
+    if(score>=5) ctx.fillText('¡BLOQUEADOR ACTIVO! Carga y suelta',10,c.height-7);
+    else ctx.fillText('Mantén clic para cargar fuerza, suelta para lanzar',15,c.height-7);
+  }
+
+  function loop(){
+    // 🔥 POTENCIA INFINITA
+    if(charging) power+=2.5;
+
+    if(score>=5&&!done){
+      blocker.x+=blocker.dx;
+      if(blocker.x<hoop.x-50||blocker.x+blocker.w>hoop.x+hoop.w+50){
+        blocker.dx*=-1;
+      }
+    }
+
+    if(ball.fly){
+      ball.x+=ball.vx;
+      ball.y+=ball.vy;
+      ball.vy+=0.45;
+
+        // 🧱 COLISIÓN CON BLOQUEADOR (PONLO AQUÍ)
+  if(score>=5){
+    if(ball.x+14>blocker.x&&ball.x-14<blocker.x+blocker.w&&
+       ball.y+14>blocker.y&&ball.y-14<blocker.y+blocker.h){
+
+      ball.vy *= -0.6; // rebote suave hacia arriba
+      ball.vx += (ball.x - (blocker.x + blocker.w/2)) * 0.08; // desviación lateral
+      ball.y = blocker.y - 16; // evita que se pegue
+    }
+  }
+        
+      // 🏀 ENCESTE ARREGLADO
+      const aroX = hoop.x + hoop.w / 2;
+      const aroY = hoop.y;
+
+      const dx = ball.x - aroX;
+      const dy = ball.y - aroY;
+
+      if(Math.sqrt(dx*dx + dy*dy) < 25 && ball.vy > 0){
+        score++;
+        sE.textContent=score;
+        ball.fly=false;
+
+        if(score>=10&&!done){
+          done=true;
+          setTimeout(()=>alert('¡Ganaste! ¡10 encestes!'),50);
+        } else {
+          setTimeout(resetBall,300);
+        }
+      }
+
+      if(ball.y>c.height-45){
+        ball.fly=false;
+        setTimeout(resetBall,300);
+      }
+    }
+
+    draw();
+    raf=requestAnimationFrame(loop);
+  }
+
+  function resetBall(){
+    ball.x=80;
+    ball.y=c.height-50;
+    ball.vx=0;
+    ball.vy=0;
+    ball.fly=false;
+  }
+
+  function down(){
+    if(ball.fly||done)return;
+    charging=true;
+    power=0;
+  }
+
+  function up(){
+    if(!charging)return;
+
+    charging=false;
+    intentos++;
+    iE.textContent=intentos;
+
+    ball.fly=true;
+    ball.vx=power*0.07;
+    ball.vy=-power*0.11;
+  }
+
+  c.addEventListener('mousedown',down);
+  c.addEventListener('mouseup',up);
+
+  loop();
+
+  return()=>{
+    cancelAnimationFrame(raf);
+    c.removeEventListener('mousedown',down);
+    c.removeEventListener('mouseup',up);
+  };
+}
+
+
+/* =====================================================================
+   ECUAVOLY — velocidad inicial más alta y aceleración más agresiva
+   ===================================================================== */
+function startVoley(){
+  const c=document.getElementById('volleyCanvas'),ctx=c.getContext('2d');
+  const sE=document.getElementById('volley-score'),lE=document.getElementById('volley-lives');
+  let pad={x:c.width/2-60,y:c.height-20,w:120,h:12,spd:7};
+  // Velocidad inicial aumentada: dx 4→6.5, dy 4→7
+  let ball={x:c.width/2,y:80,r:14,dx:6.5*(Math.random()>.5?1:-1),dy:7};
+  let score=0,lives=3,run=true,raf;const keys={};
+
+  function draw(){
+    ctx.fillStyle='#f4d35e';ctx.fillRect(0,0,c.width,c.height);
+    ctx.fillStyle='#8ecae6';ctx.fillRect(0,0,c.width/2,c.height);
+    ctx.strokeStyle='rgba(255,255,255,0.9)';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(c.width/2,0);ctx.lineTo(c.width/2,c.height-30);ctx.stroke();
+    ctx.strokeStyle='#888';ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(c.width/2-30,c.height-30);ctx.lineTo(c.width/2+30,c.height-30);ctx.stroke();
+    ctx.beginPath();ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.strokeStyle='#333';ctx.lineWidth=2;ctx.stroke();
+    ctx.beginPath();ctx.arc(ball.x,ball.y,ball.r,0.3,Math.PI-0.3);ctx.stroke();ctx.beginPath();ctx.arc(ball.x,ball.y,ball.r,Math.PI+0.3,Math.PI*2-0.3);ctx.stroke();
+    ctx.fillStyle='#1a73e8';ctx.fillRect(pad.x,pad.y,pad.w,pad.h);ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.strokeRect(pad.x,pad.y,pad.w,pad.h);
+  }
+
+  function loop(){
+    if(run){
+      if(keys['ArrowLeft']&&pad.x>0)pad.x-=pad.spd;
+      if(keys['ArrowRight']&&pad.x+pad.w<c.width)pad.x+=pad.spd;
+      ball.x+=ball.dx;ball.y+=ball.dy;
+      if(ball.x+ball.r>c.width||ball.x-ball.r<0)ball.dx*=-1;
+      if(ball.y-ball.r<0)ball.dy*=-1;
+      if(ball.y+ball.r>=pad.y&&ball.x>=pad.x&&ball.x<=pad.x+pad.w&&ball.dy>0){
+        ball.dy*=-1;
+        ball.dx=(ball.x-(pad.x+pad.w/2))/(pad.w/2)*6;
+        score++;sE.textContent=score;
+        // Aceleración cada 3 golpes (antes era cada 5), +8% por vez
+        if(score%3===0)ball.dy*=1.08;
+      }
+      if(ball.y-ball.r>c.height){
+        lives--;lE.textContent=lives;
+        if(lives<=0){run=false;setTimeout(()=>alert('Game Over! Puntos: '+score),50);}
+        else{ball.x=c.width/2;ball.y=80;ball.dx=6.5*(Math.random()>.5?1:-1);ball.dy=7;}
+      }
+    }
+    draw();raf=requestAnimationFrame(loop);
+  }
+  function kd(e){keys[e.key]=true;}function ku(e){keys[e.key]=false;}
+  function mm(e){const r=c.getBoundingClientRect();pad.x=e.clientX-r.left-pad.w/2;if(pad.x<0)pad.x=0;if(pad.x+pad.w>c.width)pad.x=c.width-pad.w;}
+  document.addEventListener('keydown',kd);document.addEventListener('keyup',ku);c.addEventListener('mousemove',mm);loop();
+  return()=>{cancelAnimationFrame(raf);document.removeEventListener('keydown',kd);document.removeEventListener('keyup',ku);c.removeEventListener('mousemove',mm);};
+}
+
+/* =====================================================================
+   NATACION — pulsar teclas a y l para avanzar
+   ===================================================================== */
+    
+function startNatacion(){
+  const c=document.getElementById('swimCanvas'),ctx=c.getContext('2d');
+  const tE=document.getElementById('swim-time');
+  let player=0,cpu=0,lastK='',start=Date.now(),run=true,raf,wave=0;const goal=c.width-90;
+  function draw(){
+    wave+=0.05;
+    for(let lane=0;lane<3;lane++){ctx.fillStyle=lane%2?'#0096c7':'#48cae4';ctx.fillRect(0,lane*100,c.width,100);
+      ctx.strokeStyle='rgba(255,255,255,0.2)';ctx.lineWidth=1;
+      for(let x=0;x<c.width;x+=50){ctx.beginPath();ctx.moveTo(x,lane*100+50+Math.sin(x*.05+wave)*5);ctx.lineTo(x+25,lane*100+50+Math.sin((x+25)*.05+wave)*5);ctx.stroke();}}
+    ctx.fillStyle='rgba(255,255,255,0.9)';ctx.fillRect(goal,0,5,c.height);ctx.fillStyle='#f4d35e';ctx.font='bold 13px Arial';ctx.fillText('META',goal-32,14);
+    ctx.fillStyle='#f4d35e';ctx.beginPath();ctx.arc(50+player,55,13,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#000';ctx.lineWidth=2;ctx.stroke();ctx.fillStyle='#000';ctx.font='bold 10px Arial';ctx.fillText('TÚ',44+player,59);
+    ctx.fillStyle='#e94560';ctx.beginPath();ctx.arc(50+cpu,175,13,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#000';ctx.stroke();ctx.fillStyle='#fff';ctx.fillText('CPU',43+cpu,179);
+    ctx.fillStyle='rgba(0,0,0,0.5)';ctx.fillRect(0,270,c.width,30);ctx.fillStyle='#fff';ctx.font='14px Arial';ctx.fillText('Presiona A y L alternadamente para nadar más rápido',20,290);
+  }
+  function loop(){
+    if(run){cpu+=0.7+Math.random()*.6;tE.textContent=((Date.now()-start)/1000).toFixed(1);
+      if(player+50>=goal){run=false;setTimeout(()=>alert('¡GANASTE! Tiempo: '+tE.textContent+'s'),50);}
+      else if(cpu+50>=goal){run=false;setTimeout(()=>alert('Perdiste. La CPU llegó primero'),50);}}
+    draw();raf=requestAnimationFrame(loop);
+  }
+  function kd(e){if(!run)return;const k=e.key.toLowerCase();if((k==='a'||k==='l')&&k!==lastK){player+=5;lastK=k;}}
+  document.addEventListener('keydown',kd);loop();
+  return()=>{cancelAnimationFrame(raf);document.removeEventListener('keydown',kd);};
+}
+
+/* =====================================================================
+   AJEDREZ — 
+   ===================================================================== */
+    
+function startAjedrez(){
+  const board=document.getElementById('chess-board'),status=document.getElementById('chess-status');
+  const P={wp:'♙',wr:'♖',wn:'♘',wb:'♗',wq:'♕',wk:'♔',bp:'♟',br:'♜',bn:'♞',bb:'♝',bq:'♛',bk:'♚'};
+  let g=[['br','bn','bb','bq','bk','bb','bn','br'],['bp','bp','bp','bp','bp','bp','bp','bp'],['','','','','','','',''],['','','','','','','',''],['','','','','','','',''],['','','','','','','',''],['wp','wp','wp','wp','wp','wp','wp','wp'],['wr','wn','wb','wq','wk','wb','wn','wr']];
+  let sel=null,turn='w';
+  function render(){
+    board.innerHTML='';
+    for(let r=0;r<8;r++)for(let c=0;c<8;c++){
+      const el=document.createElement('div');el.className='chess-cell '+((r+c)%2===0?'light':'dark');el.textContent=g[r][c]?P[g[r][c]]:'';
+      if(sel&&sel.r===r&&sel.c===c)el.classList.add('selected');
+      if(sel&&validMoves(sel.r,sel.c).some(m=>m[0]===r&&m[1]===c))el.classList.add('valid');
+      el.addEventListener('click',()=>onClick(r,c));board.appendChild(el);
+    }
+    status.textContent='Turno: '+(turn==='w'?'Blancas':'Negras (CPU)');
+  }
+  function validMoves(r,c){const p=g[r][c];if(!p)return[];const color=p[0],type=p[1],mv=[];
+    const add=(rr,cc)=>{if(rr<0||rr>7||cc<0||cc>7)return false;if(!g[rr][cc]){mv.push([rr,cc]);return true;}if(g[rr][cc][0]!==color)mv.push([rr,cc]);return false;};
+    if(type==='p'){const d=color==='w'?-1:1,s=color==='w'?6:1;if(g[r+d]&&g[r+d][c]===''){mv.push([r+d,c]);if(r===s&&g[r+2*d][c]==='')mv.push([r+2*d,c]);}[-1,1].forEach(dc=>{if(g[r+d]&&g[r+d][c+dc]&&g[r+d][c+dc][0]!==color)mv.push([r+d,c+dc]);});}
+    if(type==='r'||type==='q')[[1,0],[-1,0],[0,1],[0,-1]].forEach(([dr,dc])=>{for(let i=1;i<8;i++)if(!add(r+dr*i,c+dc*i))break;});
+    if(type==='b'||type==='q')[[1,1],[1,-1],[-1,1],[-1,-1]].forEach(([dr,dc])=>{for(let i=1;i<8;i++)if(!add(r+dr*i,c+dc*i))break;});
+    if(type==='n')[[1,2],[2,1],[-1,2],[-2,1],[1,-2],[2,-1],[-1,-2],[-2,-1]].forEach(([dr,dc])=>add(r+dr,c+dc));
+    if(type==='k')[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]].forEach(([dr,dc])=>add(r+dr,c+dc));
+    return mv;}
+  function onClick(r,c){if(turn!=='w')return;
+    if(sel){if(validMoves(sel.r,sel.c).some(m=>m[0]===r&&m[1]===c)){
+        if(g[r][c]==='bk'){g[r][c]=g[sel.r][sel.c];g[sel.r][sel.c]='';sel=null;render();alert('¡Capturaste el rey! Ganaste');return;}
+        g[r][c]=g[sel.r][sel.c];g[sel.r][sel.c]='';sel=null;turn='b';render();setTimeout(cpuMove,700);
+      }else if(g[r][c]&&g[r][c][0]==='w'){sel={r,c};render();}else{sel=null;render();}
+    }else if(g[r][c]&&g[r][c][0]==='w'){sel={r,c};render();}}
+  function cpuMove(){const all=[];
+    for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(g[r][c]&&g[r][c][0]==='b')validMoves(r,c).forEach(m=>all.push({from:[r,c],to:m,cap:g[m[0]][m[1]]!==''}));
+    if(!all.length){alert('CPU sin movimientos. ¡Ganaste!');turn='w';render();return;}
+    const caps=all.filter(m=>m.cap),mv=caps.length?caps[Math.floor(Math.random()*caps.length)]:all[Math.floor(Math.random()*all.length)];
+    if(g[mv.to[0]][mv.to[1]]==='wk'){g[mv.to[0]][mv.to[1]]=g[mv.from[0]][mv.from[1]];g[mv.from[0]][mv.from[1]]='';render();setTimeout(()=>alert('La CPU capturó tu rey. Perdiste'),50);return;}
+    g[mv.to[0]][mv.to[1]]=g[mv.from[0]][mv.from[1]];g[mv.from[0]][mv.from[1]]='';turn='w';render();}
+  render();return()=>{};
+}
+
+/* =====================================================================
+   ATLETISMO — sartar evitando los obstaculos y aumento de velocidad
+   ===================================================================== */
+    
+function startAtletismo(){
+  const c=document.getElementById('trackCanvas'),ctx=c.getContext('2d');
+  const dE=document.getElementById('track-dist');
+  let runner={y:c.height-60,vy:0,jumping:false,step:0},dist=0,speed=4,raf,run=true,bg=0;
+  let obs=[{x:c.width+180}];
+  function draw(){
+    bg+=speed*.5;
+    ctx.fillStyle='#90e0ef';ctx.fillRect(0,0,c.width,c.height-30);
+    ctx.fillStyle='rgba(255,255,255,0.8)';
+    [100,260,420,580].forEach(cx=>{const x=((cx-bg*.2)%c.width+c.width)%c.width;ctx.beginPath();ctx.arc(x,36,18,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(x+20,36,13,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(x-16,36,12,0,Math.PI*2);ctx.fill();});
+    ctx.fillStyle='#d62828';ctx.fillRect(0,c.height-30,c.width,30);
+    ctx.fillStyle='#fff';for(let i=0;i<15;i++){const x=((i*60-bg*1.2%60)+c.width*2)%c.width;ctx.fillRect(x,c.height-18,30,5);}
+    obs.forEach(o=>{ctx.fillStyle='#fff';ctx.fillRect(o.x,c.height-60,8,30);ctx.fillRect(o.x-8,c.height-60,24,7);ctx.fillStyle='#e63946';ctx.fillRect(o.x-8,c.height-53,24,4);});
+    runner.step=(runner.step+.3)%Math.PI;const lo=runner.jumping?0:Math.sin(runner.step)*8;
+    ctx.fillStyle='#1a1a2e';ctx.fillRect(82,runner.y-25,16,25);ctx.fillRect(83+lo,runner.y,6,12);ctx.fillRect(93-lo,runner.y,6,12);
+    ctx.fillStyle='#f4d35e';ctx.beginPath();ctx.arc(90,runner.y-32,10,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#000';ctx.lineWidth=1;ctx.stroke();
+    ctx.fillStyle='rgba(0,0,0,0.45)';ctx.fillRect(0,0,c.width,22);ctx.fillStyle='#fff';ctx.font='bold 13px Arial';ctx.fillText('Distancia: '+Math.floor(dist)+'m   Vel: '+speed.toFixed(1)+'x',10,15);
+    ctx.fillStyle='rgba(0,0,0,0.45)';ctx.fillRect(0,c.height-30,c.width,30);ctx.fillStyle='#fff';ctx.font='13px Arial';ctx.fillText('ESPACIO o clic para saltar las vallas',20,c.height-10);
+  }
+  function loop(){
+    if(run){dist+=speed/10;dE.textContent=Math.floor(dist);
+      if(runner.jumping){runner.y+=runner.vy;runner.vy+=.7;if(runner.y>=c.height-60){runner.y=c.height-60;runner.jumping=false;runner.vy=0;}}
+      obs.forEach(o=>o.x-=speed);obs=obs.filter(o=>o.x>-30);
+      if(!obs.length||obs[obs.length-1].x<c.width-150-Math.random()*120)obs.push({x:c.width+50+Math.random()*100});
+      obs.forEach(o=>{if(o.x<112&&o.x>68&&runner.y>c.height-62){run=false;setTimeout(()=>alert('¡Golpeaste una valla! Distancia: '+Math.floor(dist)+'m'),50);}});
+      speed=Math.min(4+dist/80,12);}
+    draw();raf=requestAnimationFrame(loop);
+  }
+  function jump(){if(!run||runner.jumping)return;runner.jumping=true;runner.vy=-13;}
+  function kd(e){if(e.code==='Space'){e.preventDefault();jump();}}
+  document.addEventListener('keydown',kd);c.addEventListener('click',jump);loop();
+  return()=>{cancelAnimationFrame(raf);document.removeEventListener('keydown',kd);c.removeEventListener('click',jump);};
+}
+
+window.addEventListener('scroll',()=>{
+  const st=document.documentElement.scrollTop||document.body.scrollTop;
+  const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  document.getElementById('progress-bar').style.width=(st/sh*100)+'%';
+});
+document.getElementById('modoOscuro').onclick=function(){
+  document.body.style.background=document.body.style.background?'':'#07070f';
+  this.textContent=this.textContent==='🌙'?'☀️':'🌙';
+};
+</script>
+</body>
+</html>

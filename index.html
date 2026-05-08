@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deportes - U.E UNEDID</title>
+<link rel="icon" href="Icno.ico" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+    
+body{
+  font-family:'Poppins',sans-serif;
+  background:#0f0f1a;
+  background-image:
+    radial-gradient(ellipse at 20% 10%,rgba(59,130,246,0.07) 0%,transparent 60%),
+    radial-gradient(ellipse at 80% 80%,rgba(139,92,246,0.07) 0%,transparent 60%);
+  color:#1e293b;
+  scroll-behavior:smooth;
+  min-height:100vh;
+}
+    
+.bg-dots{
+    position:fixed;
+    top:0;left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:0;
+    background-image:radial-gradient(rgba(255,255,255,0.025) 1px,transparent 1px);
+    background-size:30px 30px;
+}
+    
+#progress-bar{
+    position:fixed;
+    top:0;left:0;
+    height:3px;
+    width:0%;
+    z-index:3000;
+    background:linear-gradient(90deg,#facc15,#f97316,#ec4899,#8b5cf6,#3b82f6);
+    transition:width 0.1s;
+}
+    
+header{
+    position:fixed;
+    top:0px;
+    width:100%;
+    height:68px;
+    z-index:2000;
+    background:linear-gradient(90deg,#0a0f2e,#0d1b5e,#0a0f2e);
+    display:flex;align-items:center;
+    justify-content:space-between;
+    padding:0 28px;
+    box-shadow:0 4px 30px rgba(0,0,0,0.4);
+    border-bottom:1px solid rgba(255,255,255,0.06);
+}
+    
+.Logo img{
+    height:52px;
+    border-radius:6px;
+}
+    
+.header-center{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:1.1rem;
+    font-weight:700;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    background:linear-gradient(135deg,#facc15,#f97316,#ec4899);
+    background-size:200% auto;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+    animation:titleGradient 4s ease infinite;
+    white-space:nowrap;
+    margin: -50px
+}
+    
+@keyframes titleGradient{
+    0%{background-position:0% center}
+    50%{background-position:100% center}
+    100%{background-position:0% center}
+}
+    
+nav{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+    
+nav a{
+    color:rgba(255,255,255,0.75);
+    text-decoration:none;
+    font-weight:500;
+    font-size:0.85rem;
+    letter-spacing:0.5px;
+    transition:all 0.25s;
+    padding:4px 0;
+    border-bottom:2px solid transparent;
+}
+    
+nav a:hover{
+    color:#fff;
+    border-bottom-color:#facc15;
+}
+    
+#modoOscuro{
+  padding:7px 10px;
+    border-radius:50%;
+    border:none;
+    cursor:pointer;
+    background:linear-gradient(135deg,#1e1b4b,#312e81);
+    font-size:16px;box-shadow:0 4px 14px rgba(139,92,246,0.35);
+    transition:transform 0.3s,box-shadow 0.3s;
+}
+    
+#modoOscuro:hover{
+    transform:scale(1.2) rotate(20deg);
+    box-shadow:0 6px 24px rgba(139,92,246,0.55);
+}
+    
+.main-content{
+    padding:100px 28px 50px;
+    position:relative;
+    z-index:1;
+}
+    
+.logo-flotante{
+  position:relative;z-index:1;
+  float:left;margin:90px 0 0 20px;
+  width:120px;border-radius:12px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.35);
+  transition:transform 0.4s;
+}
+    
+.logo-flotante:hover{
+    transform:scale(1.08) rotate(-2deg);
+}
+    
+section{
+    position:relative;
+    background:#fff;
+    border-radius:20px;
+    padding:50px 40px;
+    margin-bottom:40px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.12);
+    overflow:hidden;
+    opacity:0;transform:translateY(40px);
+    transition:opacity 0.7s ease,transform 0.7s ease;
+}
+    
+section.visible{
+    opacity:1;
+    transform:translateY(0);
+}
+    
+section::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:5px;
+    background:linear-gradient(90deg,#3b82f6,#8b5cf6,#ec4899,#facc15);
+    background-size:300% 100%;
+    animation:barSlide 4s linear infinite;
+}
+    
+@keyframes barSlide{
+    0%{background-position:0% 50%}
+    100%{background-position:300% 50%}
+}
+    
+.portada{
+    text-align:center;
+    padding:70px 30px;
+    background:linear-gradient(135deg,rgba(13,71,161,0.04),rgba(139,92,246,0.04));
+}
+    
+.portada h1{
+    font-size:clamp(1.8rem,4vw,3rem);
+    font-weight:900;
+    background:linear-gradient(135deg,#0d47a1,#3b82f6,#8b5cf6,#ec4899);
+    background-size:200% auto;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+    animation:titleGradient 4s ease infinite;
+    filter:drop-shadow(0 0 20px rgba(59,130,246,0.2));
+    margin-bottom:18px;
+}
+    
+.portada h1::after{
+    content:'';
+    display:block;
+    height:4px;
+    border-radius:2px;
+    margin:12px auto 0;
+    width:80px;
+    background:linear-gradient(90deg,#3b82f6,#8b5cf6,#ec4899);
+    background-size:200%;
+    animation:lineSlide 3s ease infinite;
+}
+    
+@keyframes lineSlide{
+    0%{width:60px;background-position:0%}
+    50%{width:150px;background-position:100%}
+    100%{width:60px;background-position:0%}
+}
+    
+.portada p{
+    color:#475569;
+    font-size:1rem;
+    line-height:1.8;
+    max-width:750px;
+    margin:10px auto 0;
+}
+    
+section h2{
+    position:relative;
+    font-size:clamp(1.4rem,3vw,2rem);
+    font-weight:800;
+    margin-bottom:26px;
+    padding-bottom:14px;
+    background:linear-gradient(135deg,#0d47a1,#3b82f6,#8b5cf6,#ec4899);
+    background-size:200% auto;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+    animation:titleGradient 5s ease infinite;
+    filter:drop-shadow(0 0 12px rgba(59,130,246,0.15));
+}
+    
+section h2::after{
+    content:'';
+    position:absolute;
+    bottom:0;
+    left:0;
+    height:3px;
+    border-radius:2px;
+    background:linear-gradient(90deg,#3b82f6,#8b5cf6,#ec4899);
+    background-size:200%;
+    animation:lineSlide 3s ease infinite;
+}
+    
+section h2:hover{
+    animation:shimmer 1.5s ease infinite,titleGradient 5s ease infinite;
+}
+    
+@keyframes shimmer{
+    0%{filter:drop-shadow(0 0 12px rgba(59,130,246,0.15))}
+    50%{filter:drop-shadow(0 0 28px rgba(139,92,246,0.55)) drop-shadow(0 0 8px rgba(236,72,153,0.35))}
+    100%{filter:drop-shadow(0 0 12px rgba(59,130,246,0.15))}
+}
+    
+.card-info h3{
+    font-size:1.1rem;
+    font-weight:700;
+    margin-bottom:8px;
+    background:linear-gradient(135deg,#0d47a1,#3b82f6,#8b5cf6);
+    background-size:200% auto;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    background-clip:text;
+    animation:titleGradient 6s ease infinite;
+}
+    
+.galeria-deportes{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:24px;margin-top:30px;
+}
+    
+.card-estudiante{
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 8px 24px rgba(0,0,0,0.1);
+    transition:transform 0.4s,box-shadow 0.4s;
+    border:1px solid rgba(0,0,0,0.05);
+    text-decoration:none;color:inherit;display:block;
+}
+.card-estudiante:hover{
+    transform:translateY(-10px);
+    box-shadow:0 20px 40px rgba(59,130,246,0.18);
+    border-color:rgba(139,92,246,0.2);
+}
+    
+.card-estudiante img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    transition:transform 0.5s;
+}
+    
+.card-estudiante:hover img{
+    transform:scale(1.06);
+}
+    
+.card-info{
+    padding:22px 20px;
+}
+    
+.card-info p{
+    font-size:0.88rem;
+    color:#475569;
+    line-height:1.7;
+    text-align:justify;
+}
+    
+section>p,.clearfix p{
+    color:#475569;
+    line-height:1.85;
+    font-size:0.97rem;
+    margin-bottom:14px;
+}
+    
+.dere-historia{
+    float:right;
+    width:280px;
+    margin:0 0 18px 22px;
+    border-radius:14px;
+    box-shadow:0 10px 28px rgba(0,0,0,0.18);
+    transition:transform 0.4s,box-shadow 0.4s;
+}
+.izqui-historia{
+    float:left;
+    width:280px;
+    margin:0 22px 18px 0;
+    border-radius:14px;
+    box-shadow:0 10px 28px rgba(0,0,0,0.18);
+    transition:transform 0.4s,box-shadow 0.4s;
+}
+.dere-historia:hover,.izqui-historia:hover{
+    transform:scale(1.05) rotate(-1deg);
+    box-shadow:0 18px 40px rgba(0,0,0,0.28);
+}
+    
+#contacto{
+    text-align:center;
+}
+    
+.redes{
+    margin-top:22px;
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;gap:16px;
+}
+    
+.redes a{
+    padding:10px 22px;
+    border-radius:50px;
+    text-decoration:none;
+    font-weight:600;
+    font-size:0.9rem;
+    letter-spacing:0.5px;
+    background:linear-gradient(135deg,rgba(59,130,246,0.08),rgba(139,92,246,0.08));
+    border:1.5px solid rgba(139,92,246,0.25);
+    color:#0d47a1;
+    transition:all 0.3s;
+}
+    
+.redes a:hover{
+    background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+    color:#fff;
+    border-color:transparent;
+    box-shadow:0 6px 20px rgba(139,92,246,0.35);
+    transform:translateY(-2px);
+}
+.clearfix::after{
+    content:'';
+    display:table;
+    clear:both;
+}
+    
+body.dark{
+    background:#07070f;
+    color:#e2e8f0;
+}
+    
+body.dark section{
+    background:#111827;
+    box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
+body.dark section>p,body.dark .clearfix p{
+    color:#94a3b8;
+}
+    
+body.dark .card-estudiante{
+    background:#1e293b;
+    border-color:rgba(255,255,255,0.06);
+}
+    
+body.dark .card-info p{
+    color:#94a3b8;
+}
+    
+body.dark .redes a{
+    color:#93c5fd;
+    border-color:rgba(147,197,253,0.25);
+}
+    
+body.dark .portada p{
+    color:#94a3b8;
+}
+
+
+</style>
+</head>
+
+<body>
+<div class="bg-dots"></div>
+<div id="progress-bar"></div>
+
+<img src="unedid.png" class="logo-flotante" alt="Logo U.E" onerror="this.style.display='none'">
+<img src="Logo.png" class="logo-flotante" alt="Logo U.E" onerror="this.style.display='none'">
+
+<header>
+  <div class="Logo">
+    <img src="Logo.png" alt="Logo" onerror="this.style.display='none'">
+  </div>
+  <span class="header-center">DEPORTE · SALUD · VIDA       </span>
+    
+  <nav>
+    <a href="#inicio">🏠 Inicio</a>
+    <a href="#historia">🎯 Historia</a>
+    <a href="Deportes.html">⭐ Deportes</a>
+    <a href="#contacto">📞 Contacto</a>
+    <a href="Trabajo.html">⚙ Desarrollo</a>
+    <a href="juegos.html">🎮 juegos</a>
+    <button id="modoOscuro">🌙</button>
+  </nav>
+</header>
+
+<div class="main-content">
+
+  <section id="inicio" class="portada">
+    <h1>
+        UNIDAD EDUCATIVA DE INICIACION Y DESARROLLO DEPORTIVO DEL AZUAY <br>
+        "UNEDID"
+    </h1>
+    <p>
+        El objetivo de esta página es dar a conocer los deportes que se practican dentro de las jornadas deportivas en el colegio UNEDID, ayudarte a que
+        entiendas de mejor manera los deportes y motivarte a seguir uno de estos deportes.
+    </p>
+  </section>
+
+  <section id="historia">
+    <h2>🎯 Historia de la UNEDID</h2>
+    <div class="clearfix">
+      <p>La "Unidad Educativa Remigio Romero y Cordero" antes llamada "UNEDID" es un colegio fiscal que se encuentra en la ciudad de Cuenca, que retoma su antiguo nombre de "UNEDID" . Durante muchos años fue conocida como "UNEDID". Se destacó por ser netamente un colegio deportivo, convirtiéndose en un buen enfoque para competencias intercolegiales. Su prestigio se basó no solo en lo académico, sino también en la disciplina, el trabajo en equipo y la formación de sus estudiantes a través de todas sus actividades físicas y deportivas.</p>
+
+      <img src="cuenca.jfif" class="izqui-historia" alt="Cuenca" onerror="this.style.display='none'">
+      <p>En sus mejores momentos, este colegio recibió reconocimiento en torneos de fútbol, indor y ecuavoley. Se determinó que la incorporación de deportes dentro del ámbito educativo eran parte esencial de la vida estudiantil. Aquí, el deporte no era solo una materia, sino un principio educativo. Muchos estudiantes acudían a este colegio por esta razón.</p>
+
+      <p>Con el tiempo, el enfoque de la institución fue cambiando. El nuevo reglamento y el cambio de normas del Ministerio de Educación quitaron este enfoque deportivo y, aunque todavía sigue presente, ya no es el foco principal. Esto llevó a que algunos en la comunidad sintieran que esta Institución había perdido su carácter histórico. Aunque así, lo que realmente pasó fue un cambio de prioridades en el plan educativo moderno.</p>
+
+      <p>Actualmente, con el apoyo del "Ministerio de Educación", la Institución logró implementar un Bachillerato Técnico en Deportes. Esto busca integrar de nuevo el legado deportivo que tenía este colegio,<img src="ministerio.jfif" class="dere-historia" alt="Ministerio" onerror="this.style.display='none'"> haciendo enfoque otra vez en el deporte y la actividad física. Así, los estudiantes tendrán la oportunidad de desarrollarse tanto académicamente como físicamente. Se espera recuperar oficialmente la identidad que durante décadas distinguió a esta Institución en Cuenca.</p>
+
+      <p>En cuanto a su origen, este colegio lleva el nombre de Remigio Romero y Cordero, una figura destacada de la historia cuencana. Remigio Romero y Cordero fue un escritor, periodista y educador del siglo XIX y principios del XX. Se le reconoce por su aporte a la cultura y a la educación en Ecuador. Sus ideas estaban relacionadas con el desarrollo social, la formación ciudadana y el fortalecimiento de la identidad regional.</p>
+
+      <p>Al pasar de las décadas, la Institución creció en infraestructura, número de estudiantes y oferta académica. Se convirtió en uno de los colegios públicos importantes de la ciudad, adaptándose a las demandas sociales cada cierto tiempo. Su evolución también demuestra los cambios en el sistema educativo ecuatoriano, especialmente en la división del bachillerato y la incorporación de modalidades técnicas.</p>
+
+      <p><img src="Daniel.jpeg" class="dere-historia" alt="Daniel Pintado" onerror="this.style.display='none'">Respecto a los estudiantes destacados, Brian Daniel Pintado Álvarez es un destacado deportista ecuatoriano nacido en Cuenca en 1995 y reconocido mundialmente por su trayectoria en la marcha atlética. Se volvió muy reconocido al convertirse en el primer atleta ecuatoriano en ganar dos medallas en el mismo evento de los Juegos Olímpicos (París 2024): medalla de oro en los 20 km de marcha y medalla de plata en el maratón de marcha por relevos mixtos junto a Glenda Morejón.</p>
+
+      <p>Además de sus grandes éxitos, Daniel Pintado ha mantenido lazos importantes con la "UNEDID". Según reportes de redes sociales, Pintado estudió en la "Unidad Educativa Remigio Romero y Cordero", donde se enfocó en la educación básica durante varios años antes de dedicarse al deporte y, posteriormente, a su carrera atlética internacional. Durante una visita a su antigua escuela, recibió homenajes y compartió con estudiantes su historia de esfuerzo, disciplina y superación, inspirando a las nuevas generaciones a seguir sus sueños.</p>
+
+      <p><img src="colegio.jfif" class="izqui-historia" alt="Colegio" onerror="this.style.display='none'">En este contexto, el regreso al enfoque deportivo no representa un cambio improvisado, sino la recuperación de una identidad antigua que tenía años antes. La adición del Bachillerato Técnico en Deportes busca proyectar hacia el futuro esta tradición. La idea es combinar la herencia mantenida relacionada con el nombre "Remigio Romero y Cordero" con el modelo educativo actual que responde a las necesidades actuales de los estudiantes de Cuenca y del Azuay.</p>
+
+      <p>Formar estudiantes íntegros mediante la educación y el deporte.</p>
+      <p>Ser una institución reconocida por su excelencia académica y deportiva.</p>
+    </div>
+  </section>
+
+  <section id="deportes">
+    <h2>⭐ Deportes que se realizan en la Remigio Romero y Cordero</h2>
+    <div class="galeria-deportes">
+
+      <div class="card-estudiante">
+        <img src="fútbol.jpg" alt="Indoor" onerror="this.src='https://images.unsplash.com/photo-1552667466-07770ae110d0?w=600'">
+        <div class="card-info">
+          <h3>⚽ Indoor</h3>
+          <p>El indoor en nuestra institución muestra la competitividad, el querer mejorar y el querer ganar. Al practicarse en las jornadas deportivas puede demostrar la determinación de cada curso. Si llegas a ser uno de los más destacados puedes formar parte de los intercolegiales de la institución, representando a nuestro colegio en partidos amistosos entre otras instituciones.</p>
+        </div>
+      </div>
+
+      <div class="card-estudiante">
+        <img src="Atletismo.jfif" alt="Atletismo" onerror="this.src='https://images.unsplash.com/photo-1571008887538-b36bb32f4571?w=600'">
+        <div class="card-info">
+          <h3>🏃 Atletismo</h3>
+          <p>Muestra tu determinación, competitividad y resistencia en atletismo. Déjanos ver tu capacidad en la carrera de 100m, 200m y 400m que se realiza en las jornadas deportivas. Si lo que quieres es demostrar tu velocidad te recomendamos la de 100m y si quieres demostrar tu resistencia te sugerimos las de 300m y 400m.</p>
+        </div>
+      </div>
+
+      <div class="card-estudiante">
+        <img src="baloncesto.jfif" alt="Baloncesto" onerror="this.src='https://images.unsplash.com/photo-1546519638-68e109498ffc?w=600'">
+        <div class="card-info">
+          <h3>🏀 Baloncesto</h3>
+          <p>Muestra el trabajo en equipo, cooperación, la estrategia y disciplina que puedes alcanzar al practicar baloncesto en las jornadas deportivas de cada año. Este deporte no solo es divertido, también te permite compartir, mejorar y luchar juntos para ganar.</p>
+        </div>
+      </div>
+
+      <div class="card-estudiante">
+        <img src="Ajedrez.jfif" alt="Ajedrez" onerror="this.src='https://images.unsplash.com/photo-1529699211952-734e80c4d42b?w=600'">
+        <div class="card-info">
+          <h3>♟ Ajedrez</h3>
+          <p>Demuestra tu estrategia, concentración y toma de decisiones en Ajedrez. Diferentes mentalidades, planeamiento y tácticas, 16 piezas a tu disposición para estrategias que te llevarán a la victoria. Muéstranos de qué eres capaz en este deporte mental.</p>
+        </div>
+      </div>
+
+      <div class="card-estudiante">
+        <img src="natacion.jfif" alt="Natación" onerror="this.src='https://images.unsplash.com/photo-1530549387789-4c1017266635?w=600'">
+        <div class="card-info">
+          <h3>🏊‍♀️ Natación</h3>
+          <p>Muestra la perseverancia y la técnica en la natación, dejando ver la destreza en la piscina. Si logras destacar, puedes ser parte de nuestra selección institucional. Este deporte no solo fortalece el cuerpo, sino que templa el carácter y la disciplina de cada nadador, permitiendo representar a nuestro colegio en competencias intercolegiales.</p>
+        </div>
+      </div>
+
+      <div class="card-estudiante">
+        <img src="voley.jfif" alt="Ecuavoley" onerror="this.src='https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?w=600'">
+        <div class="card-info">
+          <h3>🏐 Ecuavoley</h3>
+          <p>El ecuavoley en nuestra institución refleja el gran trabajo en equipo que caracteriza a este deporte. Al practicarse en nuestro plantel, permite demostrar la agilidad de cada jugador. Si logran demostrar un gran nivel en los partidos podrías ser seleccionado para representar nuestro plantel en encuentros amistosos frente a otras instituciones.</p>
+        </div>
+      </div>
+
+      <a href="Deportes.html" class="card-estudiante">
+        <img src="Logo.png" alt="Más deportes" onerror="this.style.display='none'" style="object-fit:contain;background:#f1f5f9;padding:30px;">
+        <div class="card-info">
+          <h3>¡Aprende más de los deportes!</h3>
+          <p>Obtén más información sobre los deportes, objetivo, reglas, técnicas y más...</p>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <section id="contacto">
+    <div class="clearfix">
+      <img src="colegio1.jpg" class="izqui-historia" alt="Colegio 1" onerror="this.style.display='none'">
+      <img src="colegio2.jpg" class="dere-historia" style="height:180px;width:auto;" alt="Colegio 2" onerror="this.style.display='none'">
+    </div>
+    <h2>📞 Contacto y Redes Sociales</h2>
+    <p><strong>Dirección:</strong> Unidad Nacional - Cuenca - Ecuador</p>
+    <div class="redes">
+      <a href="https://www.facebook.com/share/18HTMPVUsb/" target="_blank">📘 Facebook</a>
+      <a href="https://www.instagram.com/soydelaremigioromero?igsh=MXFqNWZscXN2Nnhycg==" target="_blank">📸 Instagram</a>
+      <a href="https://maps.app.goo.gl/sqCs3J9cDWicg96a7" target="_blank">📍 Dirección</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLScuW5CI9I3RB_HVBO7wtePM2DLiDNMexYaTIyu2sBLyv2eRow/viewform" target="_blank">📝 Formulario</a>
+    </div>
+  </section>
+
+</div>
+
+<script>
+const btn=document.getElementById("modoOscuro");
+btn.onclick=()=>{
+  document.body.classList.toggle("dark");
+  btn.textContent=document.body.classList.contains("dark")?"☀️":"🌙";
+};
+
+window.addEventListener('scroll',()=>{
+  const st=document.documentElement.scrollTop||document.body.scrollTop;
+  const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  document.getElementById('progress-bar').style.width=(st/sh*100)+'%';
+});
+
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.07});
+document.querySelectorAll('section').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deportes - U.E UNEDID</title>
+<link rel="icon" href="Icno.ico" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Poppins',Arial,sans-serif;
+  background:#0f0f1a;
+  background-image:
+    radial-gradient(ellipse at 20% 10%,rgba(59,130,246,0.08) 0%,transparent 60%),
+    radial-gradient(ellipse at 80% 80%,rgba(139,92,246,0.08) 0%,transparent 60%);
+  min-height:100vh;
+  color:#1e293b;
+}
+.bg-dots{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:0;
+  background-image:radial-gradient(rgba(255,255,255,0.03) 1px,transparent 1px);
+  background-size:32px 32px;
+}
+/* BOTÓN MENÚ */
+.menu-btn{
+  position:fixed;top:15px;left:15px;z-index:1000;
+  background:linear-gradient(135deg,#facc15,#f59e0b);
+  border:none;padding:10px 18px;cursor:pointer;font-weight:700;
+  border-radius:8px;font-size:14px;letter-spacing:1px;
+  box-shadow:0 4px 15px rgba(250,204,21,0.4);
+  transition:all 0.3s ease;
+}
+.menu-btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 8px 25px rgba(250,204,21,0.55);}
+/* BARRA LATERAL */
+.sidebar{
+  height:100%;width:0;position:fixed;top:0;left:0;z-index:999;
+  background:linear-gradient(180deg,#0f172a,#1e1b4b);
+  overflow-x:hidden;transition:0.35s cubic-bezier(.4,0,.2,1);
+  padding-top:70px;box-shadow:4px 0 30px rgba(0,0,0,0.5);
+}
+.sidebar a{
+  padding:12px 24px;text-decoration:none;font-size:15px;
+  color:rgba(255,255,255,0.75);display:block;letter-spacing:0.5px;
+  transition:all 0.25s;border-left:3px solid transparent;
+}
+.sidebar a:hover{
+  background:rgba(255,255,255,0.06);color:#fff;
+  border-left-color:#facc15;padding-left:32px;
+}
+.close-btn{
+  position:absolute;top:14px;right:18px;font-size:26px;
+  cursor:pointer;color:rgba(255,255,255,0.6);transition:0.2s;
+}
+.close-btn:hover{color:#fff;transform:rotate(90deg);}
+/* SECCIONES */
+.section{
+  position:relative;z-index:1;padding:55px 36px;
+  background:#fff;border-radius:20px;margin:50px 24px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.12);overflow:hidden;
+  opacity:0;transform:translateY(40px);
+  transition:opacity 0.7s ease,transform 0.7s ease;
+}
+.section.visible{opacity:1;transform:translateY(0);}
+/* Barra superior animada */
+.section::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:5px;
+  background:linear-gradient(90deg,#3b82f6,#8b5cf6,#ec4899,#f59e0b);
+  background-size:300% 100%;
+  animation:gradientBar 4s linear infinite;
+}
+@keyframes gradientBar{
+  0%{background-position:0% 50%}100%{background-position:300% 50%}
+}
+/* H1 TÍTULOS ANIMADOS */
+.section h1{
+  position:relative;
+  font-size:clamp(1.8rem,4vw,3rem);font-weight:900;
+  text-align:center;margin-bottom:28px;line-height:1.2;
+  background:linear-gradient(135deg,#1e3a8a 0%,#3b82f6 30%,#8b5cf6 60%,#ec4899 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:titleGradient 4s ease infinite;
+  filter:drop-shadow(0 0 20px rgba(59,130,246,0.25));
+}
+@keyframes titleGradient{
+  0%{background-position:0% center}
+  50%{background-position:100% center}
+  100%{background-position:0% center}
+}
+/* Línea animada bajo h1 */
+.section h1::after{
+  content:'';display:block;height:4px;border-radius:2px;
+  margin:10px auto 0;width:80px;
+  background:linear-gradient(90deg,#3b82f6,#8b5cf6,#ec4899);
+  background-size:200% 100%;animation:lineSlide 3s ease infinite;
+}
+@keyframes lineSlide{
+  0%{width:60px;background-position:0% 50%}
+  50%{width:140px;background-position:100% 50%}
+  100%{width:60px;background-position:0% 50%}
+}
+/* Glow hover en h1 */
+.section h1:hover{animation:shimmer 1.5s ease infinite,titleGradient 4s ease infinite;}
+@keyframes shimmer{
+  0%{filter:drop-shadow(0 0 20px rgba(59,130,246,0.25))}
+  50%{filter:drop-shadow(0 0 35px rgba(139,92,246,0.6)) drop-shadow(0 0 10px rgba(236,72,153,0.4))}
+  100%{filter:drop-shadow(0 0 20px rgba(59,130,246,0.25))}
+}
+/* H2 */
+.section h2{
+  position:relative;font-size:1.25rem;font-weight:700;
+  color:#1e293b;margin:28px 0 12px;padding-left:18px;letter-spacing:0.5px;
+}
+.section h2::before{
+  content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:5px;height:80%;border-radius:3px;
+  background:linear-gradient(180deg,#3b82f6,#8b5cf6);
+  box-shadow:0 0 8px rgba(139,92,246,0.5);
+}
+/* H2 dentro de tarjetas */
+.info h2{
+  padding-left:0;font-size:1.1rem;text-align:center;
+  background:linear-gradient(135deg,#1e3a8a,#3b82f6,#8b5cf6);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  background-size:200% auto;animation:titleGradient 5s ease infinite;
+}
+.info h2::before{display:none;}
+.info h2::after{
+  content:'';display:block;height:2px;width:40px;
+  margin:6px auto 14px;border-radius:2px;
+  background:linear-gradient(90deg,#3b82f6,#8b5cf6);
+  animation:lineSlide 4s ease infinite;
+}
+/* BADGE EMOJI */
+.sport-badge{
+  display:inline-flex;align-items:center;gap:14px;
+  padding:10px 24px;border-radius:50px;
+  background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(139,92,246,0.1));
+  border:1.5px solid rgba(139,92,246,0.25);margin-bottom:20px;
+}
+.sport-badge .emoji{font-size:2.2rem;animation:floatEmoji 3s ease-in-out infinite;}
+@keyframes floatEmoji{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+/* IMÁGENES */
+.dere-historia{
+  float:right;width:320px;margin:0 0 20px 24px;
+  border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,0.18);
+  transition:transform 0.4s ease,box-shadow 0.4s ease;
+}
+.izqui-historia{
+  float:left;width:320px;margin:0 24px 20px 0;
+  border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,0.18);
+  transition:transform 0.4s ease,box-shadow 0.4s ease;
+}
+.dere-historia:hover,.izqui-historia:hover{
+  transform:scale(1.04) rotate(-1deg);
+  box-shadow:0 20px 50px rgba(0,0,0,0.28);
+}
+/* TARJETAS */
+.pos-info{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:24px;margin-top:30px;clear:both;
+}
+.info{
+  background:#fff;border-radius:16px;overflow:hidden;
+  box-shadow:0 8px 24px rgba(0,0,0,0.08);
+  transition:transform 0.4s,box-shadow 0.4s;
+  border:1px solid rgba(0,0,0,0.06);padding:24px 20px;
+}
+.info:hover{
+  transform:translateY(-8px);
+  box-shadow:0 20px 40px rgba(59,130,246,0.15);
+  border-color:rgba(139,92,246,0.2);
+}
+/* Lista con círculos numerados */
+.info ol{
+  counter-reset:item;list-style:none;padding-left:0;
+  color:#475569;line-height:1.8;font-size:0.9rem;
+}
+.info ol li{
+  counter-increment:item;display:flex;
+  gap:10px;align-items:flex-start;margin-bottom:10px;
+}
+.info ol li::before{
+  content:counter(item);
+  min-width:24px;height:24px;border-radius:50%;
+  background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+  color:#fff;font-size:11px;font-weight:700;
+  display:inline-flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:2px;
+}
+/* PÁRRAFOS */
+.section>p{color:#475569;line-height:1.85;font-size:0.98rem;margin-bottom:14px;}
+/* CAJA OBJETIVO */
+.objetivo-box{
+  background:linear-gradient(135deg,rgba(59,130,246,0.07),rgba(139,92,246,0.07));
+  border-left:4px solid #8b5cf6;border-radius:0 12px 12px 0;
+  padding:14px 20px;margin:14px 0 22px;
+  color:#334155;font-size:0.95rem;line-height:1.8;
+}
+/* BARRA PROGRESO SCROLL */
+#progress-bar{
+  position:fixed;top:0;left:0;height:3px;width:0%;z-index:2000;
+  background:linear-gradient(90deg,#3b82f6,#8b5cf6,#ec4899);
+  transition:width 0.1s;
+}
+/* HERO */
+.hero{
+  text-align:center;padding:80px 24px 50px;
+  position:relative;z-index:1;
+  background:linear-gradient(180deg,rgba(30,26,75,0.95),transparent);
+}
+.hero-title{
+  font-size:clamp(1.6rem,5vw,3.5rem);font-weight:900;
+  background:linear-gradient(135deg,#facc15,#f97316,#ec4899,#8b5cf6,#3b82f6);
+  background-size:300% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:titleGradient 5s ease infinite;
+  letter-spacing:2px;margin-bottom:12px;
+  filter:drop-shadow(0 0 30px rgba(250,204,21,0.3));
+}
+.hero-sub{
+  color:rgba(255,255,255,0.6);font-size:1rem;
+  letter-spacing:3px;text-transform:uppercase;font-weight:500;
+}
+.hero-line{
+  width:100px;height:3px;margin:18px auto 0;border-radius:2px;
+  background:linear-gradient(90deg,#facc15,#f97316,#ec4899);
+  background-size:200%;animation:lineSlide 3s ease infinite;
+}
+/* MODO OSCURO BOTÓN */
+#modoOscuro{
+  position:fixed;bottom:36px;left:28px;z-index:1000;
+  padding:12px 14px;border-radius:50%;border:none;cursor:pointer;
+  background:linear-gradient(135deg,#1e1b4b,#312e81);
+  font-size:18px;box-shadow:0 4px 20px rgba(139,92,246,0.35);
+  transition:transform 0.3s,box-shadow 0.3s;
+}
+#modoOscuro:hover{transform:scale(1.15) rotate(20deg);box-shadow:0 8px 30px rgba(139,92,246,0.5);}
+/* DARK MODE */
+body.dark{background:#07070f;color:#e2e8f0;}
+body.dark .section{background:#111827;box-shadow:0 20px 60px rgba(0,0,0,0.5);}
+body.dark .section>p{color:#94a3b8;}
+body.dark .section h2{color:#e2e8f0;}
+body.dark .info{background:#1e293b;border-color:rgba(255,255,255,0.07);}
+body.dark .info ol{color:#94a3b8;}
+body.dark .objetivo-box{background:rgba(139,92,246,0.1);color:#cbd5e1;}
+.clearfix::after{content:'';display:table;clear:both;}
+</style>
+</head>
+
+<body>
+<div class="bg-dots"></div>
+<div id="progress-bar"></div>
+
+<button class="menu-btn" onclick="openMenu()">☰ Menu</button>
+
+<div id="sidebar" class="sidebar">
+  <span class="close-btn" onclick="closeMenu()">&times;</span>
+  <a href="index.html">🏠 Inicio</a>
+  <a href="#Fútbol">⚽ Indoor</a>
+  <a href="#Baloncesto">🏀 Baloncesto</a>
+  <a href="#Atletismo">🏃‍♂️ Atletismo</a>
+  <a href="#Natación">🏊‍♀️ Natación</a>
+  <a href="#Ajedrez">♟ Ajedrez</a>
+  <a href="#Ecuavoley">🏐 Ecuavoley</a>
+  <a href="Trabajo.html">⚙ Desarrollo</a>
+  <a href="juegos.html">🎮 juegos</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-title">UNIDAD EDUCATIVA DE INICIACION Y DESARROLLO DEPORTIVO DEL AZUAY <br>"UNEDID"</div>
+  <div class="hero-sub">Deportes &amp; Actividad Física</div>
+  <div class="hero-line"></div>
+</div>
+
+<!-- ===== INDOOR ===== -->
+<div id="Fútbol" class="section">
+  <div style="text-align:center">
+    <div class="sport-badge"><span class="emoji">⚽</span></div>
+  </div>
+  <h1>Indoor</h1>
+  <div class="clearfix">
+    <img src="fútbol.jpg" class="izqui-historia" alt="Indoor" onerror="this.style.display='none'">
+    <p>En el mundo del deporte y la actividad física, "Indoor" se refiere a cualquier deporte, juego o ejercicio diseñado para realizarse en un espacio cerrado . A diferencia de los deportes al aire libre, las actividades indoor se adaptan a espacios como gimnasios, canchas cubiertas, pequeñas salas polivalentes o incluso el hogar .</p>
+
+<p>El deporte indoor incluye desde versiones adaptadas de deportes tradicionales (como fútbol sala, baloncesto o hockey sala) hasta juegos específicos de persecución, estrategia y habilidad creados para maximizar el movimiento en espacios reducidos . También es un término muy utilizado en el ámbito del fitness para referirse a entrenamientos de alta intensidad (como spinning, boxeo o escalada)</p>
+  </div>
+  <h2>Objetivo</h2>
+  <div class="objetivo-box">
+      <p>
+      Aunque existen muchas variantes, en los juegos de invasión indoor (como los que se juegan en el programa KS2 ), el objetivo principal es
+      universal: Introducir un objeto (pelota, disco, etc.) en la meta del equipo contrario (una portería, canasta o zona) mientras se defiende 
+      la propia, superando a los oponentes mediante el trabajo en equipo, la estrategia y la habilidad técnica.
+      </p>
+
+  </div>
+  <div class="pos-info">
+    <div class="info">
+      <h2>Sus reglas deportivas</h2>
+        <p>
+        Las reglas pueden variar según el deporte, pero esta es una lista de las normas más comunes y generales que encontraras en actividades
+        indoor como balonmano, fútbol sala o juegos modificados :
+        </p>
+
+      <ol>
+        <li>
+            No Correr con el Objeto (en la mayoría de juegos): Si el deporte se juega con las manos, el jugador que tiene la pelota no puede
+            dar más de un cierto número de pasos (generalmente 3) sin botarla o pasarla. En deportes de pie, se controla con los pies.
+        </li>
+        <li>
+            Faltas Personales (Contacto): Está prohibido el contacto físico brusco, como 
+            empujar, agarrar, golpear o sujetar al oponente.
+        </li>
+        <li>
+            Doble Contacto: Un mismo jugador no puede tocar la pelota dos veces seguidas 
+            (excepto si ha habido un rebote).
+        </li>
+        <li>
+            Salidas de la Cancha: Si el objeto toca la línea o sale del área de juego,
+            la posesión pasa al equipo contrario, que lo pone en juego desde el punto de salida.
+        </li>
+        <li>
+            Zona de Portería (Área): En juegos con arco, los jugadores de campo no pueden entrar
+            en el área marcada frente a la portería. Solo el portero puede tocar la pelota 
+            dentro de ella.
+        </li>
+        <li>
+            Posesión del Portero: Una vez que el portero atrapa la pelota, tiene un tiempo 
+            límite (ej. 4 segundos) para ponerla de nuevo en juego.
+        </li>
+        <li>
+            Fuera de Juego: Dependiendo del deporte, puede existir una regla que impida a 
+            los atacantes estar detrás de la última línea defensiva antes de recibir el pase.
+        </li>
+        <li>
+            Sanciones: Las faltas graves o tácticas (como cortar un ataque prometedor) pueden
+            ser sancionadas con:<br>
+                Tiro Libre/ Falta: Se para el juego y se reanuda desde el punto de la falta.<br>
+                Penalti: Si la falta es dentro del área de meta.<br>
+                Tarjeta o Exclusión: Para faltas muy graves o conducta antideportiva (el jugador
+                sale unos minutos o todo el partido).<br>
+            </li>
+      </ol>
+    </div>
+    <div class="info">
+      <h2>Técnicas</h2>
+        <p>
+           Técnicas Ofensivas: 
+        </p><br>
+      <ol>
+        <li>
+            El Pase: Usar diferentes tipos de pase (de pecho, picado, de costado, de dedos) con precisión y velocidad .
+        </li>
+        <li>
+            La Recepción (Control): Amortiguar el móvil para controlarlo al instante.
+        </li>
+        <li>
+            El Dribling/ Conducción: Botar o conducir el objeto para avanzar sin perder el control, manteniendo la cabeza alta para ver a los compañeros .
+        </li>
+        <li>
+            El Tiro a Portería: Precisión y potencia en el lanzamiento final.
+        </li>
+        <li>
+            Fintas y Amagues: Movimientos engañosos (de cuerpo, de piernas o de brazos) para desequilibrar al defensor .
+        </li>
+          </ol>
+        <p>
+            Técnicas Defensivas:
+        </p><br>
+        <ol>
+        <li>
+            Marcaje: Vigilar a un oponente específico para evitar que reciba el pase.
+        </li>
+        <li>
+            Interceptación: Anticiparse a la trayectoria del móvil para robar la posesión.
+        </li>
+        <li>
+            Desmarque: Moverse sin la pelota para recibir un pase.
+        </li>
+      </ol>
+    </div>
+    <div class="info">
+      <h2>Ejercicios para mejorar</h2>
+      <p>
+           Categoría 1: Velocidad y Agilidad (Para espacios pequeños)
+        </p><br>
+      <ol>
+        <li>
+            Escalera de Agilidad: Realiza patrones como "Pasos rápidos" (un pie por cuadrado), "Salto tijera" y "Salto lateral". Mejora la 
+            coordinación y la velocidad de pies .
+        </li>
+        <li>
+            Saltos Skater (Patinador): Salta de un lado a otro sobre una línea imaginaria, apoyándote en un pie y llevando el otro por detrás.
+            Desarrolla potencia lateral .
+        </li>
+        <li>
+            Carreras de Ida y Vuelta (Shuttles): Coloca dos conos a 5-10 metros. Corre de un cono a otro tocando el suelo con la mano. Ideal 
+            para la aceleración y cambio de dirección.
+        </li>
+    </ol>
+
+    <p>
+           Categoría 2: Físicos y de Fuerza (Circuito)
+        </p><br>
+      <ol>
+        <li>
+            Burpees: Desde cuclillas, pies atrás (posición de plancha), pies adelante y salto explosivo con brazos arriba .
+        </li>
+        <li>
+            Mountain Climbers (Escaladores): En posición de plancha, lleva rodillas alternas hacia el pecho lo más rápido posible .
+        </li>
+        <li>
+            Saltos en Cuclillas (Squat Jumps): Baja en sentadilla y salta explosivamente hacia arriba .
+        </li>
+    </ol>
+
+    <p>
+          Categoría 3: Técnicos en Movimiento (1 vs 1)
+        </p><br>
+      <ol>
+        <li>
+            Ejercicio de 1 vs 1 con Cuadros: El entrenador pasa la pelota. El primero que llegue ataca la portería pequeña conduciendo. 
+            Se practica la conducción y el 1×1 .
+        </li>
+        <li>
+            Rondos (Pases en Círculo): 5-6 jugadores en círculo, 1-2 en el centro robando. Se trabaja el pase rápido, la precisión y la presión defensiva.
+        </li>
+    </ol>
+
+    <p>
+            Categoría 4. Calentamiento y Movilidad (Antes de empezar)
+        </p><br>
+      <ol>
+        <li>
+            Movilidad Articular: Rotaciones de cuello, círculos con hombros, torsión de tronco y balanceos de piernas .
+        </li>
+        <li>
+            Saltos de Tijera (Criss Cross): Saltar intercambiando la posición de los pies (uno adelante, uno atrás) .
+        </li>
+    </ol>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== BALONCESTO ===== -->
+<div id="Baloncesto" class="section">
+  <div style="text-align:center">
+    <div class="sport-badge"><span class="emoji">🏀</span></div>
+  </div>
+  <h1>Baloncesto</h1>
+  <div class="clearfix">
+    <img src="baloncesto1.jpg" class="dere-historia" alt="Baloncesto" onerror="this.style.display='none'">
+    <p>
+        El baloncesto (del inglés basket: canasta, y ball: pelota) es un deporte de equipo que se juega en una cancha rectangular cubierta (indoor). 
+        Dos equipos se enfrentan con el objetivo de introducir una pelota en un aro elevado (canasta) que tiene una red, mientras impiden que el 
+        equipo contrario lo haga.
+    </p>
+    <p>
+        Fue inventado en 1891 por el profesor James Naismith en Massachusetts (EE.UU.) como una actividad indoor para mantener a sus alumnos activos 
+        durante el invierno. Hoy es uno de los deportes más populares del mundo, con ligas profesionales como la NBA (EE.UU.), la Euroliga y la ACB (España).
+    </p>
+  </div>
+  <h2>Objetivo</h2>
+  <div class="objetivo-box">
+      <p>
+          Anotar más puntos que el equipo contrario introduciendo el balón en la canasta del rival.<br>
+          Cada tiro de campo (desde dentro de la línea de 3 puntos) vale 2 puntos.<br>
+          Cada tiro desde fuera de la línea de 3 puntos vale 3 puntos.<br>
+          Cada tiro libre (lanzamiento sin oposición tras una falta) vale 1 punto.<br>
+          El partido se divide en cuartos (4 períodos). En la NBA son de 12 minutos; en el resto de competiciones (FIBA) son de 10 minutos. Gana quien 
+          suma más puntos al final.
+    </p>
+  
+  </div>
+  <div class="pos-info">
+    <div class="info">
+      <h2>Sus reglas deportivas</h2>
+        <p>TAquí tienes las reglas fundamentales del baloncesto actual basadas en el reglamento FIBA (Federación Internacional de Baloncesto):</p>
+        <ol>
+            <li>Regla 1: No se puede correr con el balón sin botar (regla de los pasos). El jugador que recibe el balón en movimiento o que lo 
+                recoge después de botar debe pasar o tirar. Solo puede dar 2 pasos como máximo sin botar. Si da 3 o más pasos, el árbitro señala 
+                "pasos" y el balón pasa al equipo contrario, que lo pone en juego desde la banda. Esta regla evita que los jugadores avancen corriendo 
+                con la pelota en las manos, lo que haría el deporte imposible de defender.</li>
+            
+            <li>Regla 2: Doble drible. Está totalmente prohibido botar el balón, luego cogerlo con las dos manos y volver a botar. También está 
+                prohibido botar con las dos manos a la vez. Si un jugador comete doble drible, el árbitro detiene el juego y el balón pasa al equipo
+                contrario, que lo saca desde el lateral. Esta regla obliga a los jugadores a decidir entre pasar, tirar o seguir botando, pero sin 
+                poder reiniciar el bote una vez que lo han detenido.</li>
+            
+            <li>Regla 3: Campo atrás (pases en campo propio). Una vez que el equipo atacante ha cruzado la línea de medio campo con el balón hacia el 
+                aro rival, no puede devolver el balón a su propio campo. Si un jugador pasa hacia atrás o un compañero toca el balón estando en el 
+                campo propio después de haber cruzado, se señala infracción de campo atrás y el balón se entrega al equipo contrario en el punto donde 
+                se produjo la infracción. Esta regla impide que los equipos retrasen el juego constantemente.</li>
+            
+            <li>Regla 4: Regla de los 8 segundos. El equipo que tiene el balón en su propio campo debe pasar al campo contrario en menos de 8 segundos. 
+                Si no lo logra, el árbitro señala infracción y el balón pasa al equipo rival. Esta regla acelera el juego y evita que los equipos se 
+                entretengan en su propio campo sin atacar.</li>
+            
+            <li>Regla 5: Regla de los 24 segundos. El equipo atacante tiene 24 segundos para lanzar a canasta y que el balón toque el aro (o entre 
+                directamente). Si el balón no toca el aro en ese tiempo, se señala infracción de 24 segundos y el balón pasa al equipo contrario. Si 
+                el balón toca el aro y el equipo atacante coge el rebote, se reinician los 24 segundos. Esta regla mantiene un ritmo de juego rápido
+                y evita que los equipos retengan el balón sin atacar.</li>
+            
+            <li>Regla 6: Regla de los 3 segundos en zona. Un jugador atacante no puede permanecer más de 3 segundos seguidos dentro del área restringida 
+                (la zona pintada cerca del aro, también llamada "pintura" o "zona de 3 segundos") mientras su equipo tiene el balón. Si permanece más 
+                tiempo sin intentar salir, el árbitro señala infracción y el balón pasa al equipo contrario. Esta regla evita que un jugador alto se 
+                quede estacionado debajo del aro esperando el pase fácil.</li>
+            
+            <li>Regla 7: Faltas personales. Está prohibido golpear, empujar, sujetar, cargar (embestir) o hacer cualquier tipo de contacto ilegal contra 
+                un oponente. Si un jugador comete una falta personal, el árbitro para el juego y el equipo rival recibe la posesión (si la falta no fue
+                en acción de tiro) o tiros libres (si fue en acción de tiro y el lanzamiento falló). Cada falta cuenta para el límite personal del jugador 
+                y para el límite de equipo.</li>
+            
+            <li>Regla 8: Límite de faltas por jugador. Un jugador puede cometer un máximo de 5 faltas personales (en la NBA son 6). Al llegar a ese 
+                límite, el jugador es eliminado (foul out) y no puede seguir jugando en ese partido. Si un entrenador intenta que un jugador eliminado 
+                siga en cancha, se sanciona con falta técnica. Esta regla protege la integridad física de los jugadores y evita que un jugador cometa 
+                faltas de manera reiterada e intencionada.</li>
+            
+            <li>Regla 9: Faltas de equipo (bonus o bonus). Cuando un equipo acumula 4 faltas en un cuarto (en la NBA son 5 faltas por cuarto), a partir 
+                de la siguiente falta, el equipo rival lanza 2 tiros libres (incluso si la falta no fue en acción de tiro). Al llegar a 10 faltas en un 
+                cuarto (en algunas competiciones), se lanzan 2 tiros libres y además el equipo mantiene la posesión (falta con posesión). Esta regla 
+                penaliza a los equipos que cometen muchas faltas y evita que usen las faltas como táctica defensiva excesiva.</li>
+            
+        </ol>
+    </div>
+    <div class="info">
+      <h2>Técnicas</h2>
+        <p>Las técnicas se dividen en técnicas de ataque y técnicas de defensa.</p>
+        <p>Técnicas de ataque</p>
+        <ol>
+            <li>Técnica 1: Bote o drible de control. Consiste en botar el balón lentamente, con la mano separada de la pelota y los dedos abiertos,
+                manteniendo el balón cerca del cuerpo (a la altura de la cadera o más abajo) para protegerlo del defensor. El bote debe ser suave y
+                controlado, sin mirar el balón, manteniendo la cabeza levantada para observar a los compañeros y rivales. Se usa cuando el defensor 
+                está cerca y necesitas avanzar con seguridad sin perder el balón.</li>
+            
+            <li>Técnica 2: Bote de velocidad. Es el bote que se utiliza cuando se corre en un contraataque o cuando no hay defensores cerca. Se bota 
+                el balón más adelante del cuerpo (hacia el frente), con un bote más alto (a la altura de la cintura o más) y más largo, de manera que
+                el balón llegue al suelo y rebote hacia adelante mientras el jugador corre a máxima velocidad. El bote debe ser con la punta de los 
+                dedos, no con la palma. Permite avanzar rápido, pero hay que estar atento para no perder el control.</li>
+            
+            <li>Técnica 3: Bote de protección (bote bajo). Se utiliza cuando un defensor está muy pegado y presiona. Se bota el balón muy bajo (a la 
+                altura de la rodilla o incluso más abajo), con el cuerpo de lado entre el balón y el defensor. El brazo que no bota se usa como protección
+                para evitar que el defensor robe (sin empujar). Las piernas están semiflexionadas para poder cambiar de dirección rápidamente. Es 
+                fundamental en situaciones de presión defensiva.</li>
+            
+            <li>Técnica 4: Bote con cambio de dirección (crossover). Es un tipo de bote en el que el jugador, mientras avanza, cambia el balón de una 
+                mano a la otra por delante del cuerpo (o entre las piernas, o por detrás de la espalda), para desequilibrar al defensor y superarlo. 
+                El cambio de dirección debe ser rápido y acompañado de un movimiento de hombros y caderas para engañar al defensor. Es una de las
+                técnicas más usadas en el 1 contra 1.</li>
+            
+            
+        </ol>
+
+        <p>Técnicas defensivas</p>
+        <ol>
+            <li>Técnica 1: Posición básica defensiva. El defensor se coloca con las rodillas flexionadas (en cuclillas), la espalda recta, los pies 
+                separados a la anchura de los hombros, el peso del cuerpo sobre las puntas de los pies (los talones ligeramente levantados), los brazos
+                activos (ligeramente separados del cuerpo) y las manos preparadas para interceptar o molestar el pase. Los ojos deben estar fijos en la
+                cintura o el pecho del atacante (no en sus ojos ni en el balón), porque los movimientos de cadera indican hacia dónde va a moverse. Esta
+                posición permite desplazarse rápido en cualquier dirección.</li>
+            
+            <li>Técnica 2: Desplazamiento defensivo (paso de arrastre). Para moverse lateralmente en defensa sin perder la posición, se utiliza el paso 
+                de arrastre: se da un paso lateral con la pierna hacia el lado hacia el que se quiere desplazar, y la otra pierna se arrastra hasta 
+                juntarse con la primera (sin cruzar las piernas). El objetivo es mantener siempre un pie en el suelo como base, nunca cruzar una pierna 
+                por delante de la otra porque eso te dejaría desequilibrado. Los pies se deslizan o arrastran, nunca se levantan del suelo más de lo 
+                necesario.</li>
+            
+            <li>Técnica 3: Marcaje individual. Es la defensa en la que cada defensor tiene asignado a un atacante específico. El defensor sigue a 
+                ese atacante a donde vaya por la cancha, intentando impedir que reciba el balón, que la anote o que pase. Si el atacante se mueve sin 
+                balón, el defensor debe estar siempre entre él y la canasta (defensa de frente). Si el atacante recibe el balón, el defensor se coloca a
+                un brazo de distancia (o pegado si es un buen tirador) y trata de molestar su tiro o su pase.</li>
+            
+            <li>Técnica 4: Marcaje zonal. Cada defensor se encarga de defender una zona específica de la cancha (por ejemplo, la esquina derecha o la 
+                zona de 3 segundos izquierda). Cuando un atacante entra en su zona, el defensor lo marca; cuando el atacante sale de la zona, el defensor 
+                lo "entrega" a otro compañero y se queda preparado para el siguiente rival que entre. El marcaje zonal es más estático y se utiliza para 
+                proteger especialmente la zona pintada (cerca del aro) o para contrarrestar equipos con muy buenos tiradores exteriores. La comunicación 
+                entre los defensores es clave.</li>
+            
+            <li>Técnica 5: Tapón o bloqueo de tiro (block). Cuando un atacante tira a canasta, el defensor puede saltar e intentar impedir o desviar el
+                balón sin hacer contacto con el brazo o la mano del atacante. Las reglas permiten tocar el balón siempre que la mano esté en contacto solo
+                con el balón y no con la mano del tirador. Para hacer un tapón limpio, el defensor debe saltar verticalmente (no hacia adelante), mantener
+                los brazos extendidos y rectos hacia arriba, y tratar de golpear el balón en el punto más alto de la trayectoria. No se puede "palmear" el
+                balón hacia abajo con violencia porque suele considerarse falta.</li>
+            
+
+            
+        </ol>
+    </div>
+    <div class="info">
+      <h2>Ejercicios para mejorar</h2>
+        <p>Aquí tienes ejercicios prácticos organizados por categorías.</p>
+        <p>Ejercicios de manejo de balón y drible</p>
+        <ol>
+            <li>Ejercicio 1: Slaps (golpes al balón). De pie, con el balón sujeto con las dos manos a la altura de la cintura. Golpea el balón con una 
+                mano abierta, alternando rápidamente entre la mano izquierda y la derecha. Golpea con fuerza, no solo toques. El balón no debe caerse. 
+                El objetivo es calentar los dedos, las manos y las muñecas, además de mejorar la sensibilidad y el control del balón. Se recomienda hacer 
+                30 golpes con cada mano (alternando) durante 1-2 minutos al inicio de cada entrenamiento.</li>
+            
+            <li>Ejercicio 2: Círculos alrededor de la cabeza, cintura y piernas. De pie, con el balón en las manos. Rodea tu cabeza con el balón 
+                (pasándolo de una mano a la otra) durante 10 segundos en una dirección y luego 10 segundos en la dirección contraria. Después, repite 
+                el mismo movimiento rodeando tu cintura (10 segundos cada dirección). Finalmente, rodea cada pierna (primero la derecha, luego la izquierda)
+                durante 10 segundos cada dirección. Este ejercicio mejora la coordinación mano-ojo y la habilidad para mover el balón alrededor del cuerpo 
+                sin perderlo.</li>
+            
+            <li>Ejercicio 3: Drible en V (drible estático delante del cuerpo). De pie con las piernas separadas (un poco más anchas que los hombros) y 
+                las rodillas flexionadas. Bota el balón delante del cuerpo, pasándolo de la mano derecha a la izquierda y de la izquierda a la derecha 
+                en forma de "V" (el balón se mueve de izquierda a derecha y de derecha a izquierda botando). La altura del bote debe ser baja (a la altura 
+                de la rodilla aproximadamente). No mires el balón; mantén la cabeza levantada. Haz 30 segundos de drible en V y luego descansa 10 segundos.
+                Repite 3-4 veces. Trabaja el control del balón y la coordinación de ambas manos.</li>
+            
+            <li>Ejercicio 4: Drible entre piernas (estático). Con la misma posición inicial (piernas separadas, rodillas flexionadas). Bota el balón 
+                pasándolo por debajo de una pierna: el balón entra por delante de la pierna y sale por detrás, pasando de una mano a la otra. Primero 
+                practica solo con la pierna derecha (10 veces), luego con la izquierda (10 veces), luego alternando pierna derecha e izquierda (10 veces 
+                más). La clave es dar un bote fuerte y seco, y que la mano que recibe esté preparada. Este ejercicio es más avanzado y mejora el control
+                en espacios reducidos.</li>
+            
+            <li>Ejercicio 5: Drible a la espalda (estático). Misma posición inicial. Bota el balón pasándolo por detrás de tu espalda, de una mano a la 
+                otra. El movimiento debe ser suave y controlado. La mano que bota empuja el balón hacia atrás y la otra mano lo recibe por detrás de la 
+                cadera. Es más difícil que el drible entre piernas porque no ves el balón. Practica 10 pases por detrás con cada mano, luego 10 alternando.
+                Este ejercicio mejora la sensibilidad periférica y la seguridad en el manejo.</li>
+            
+            <li>Ejercicio 6: Drible con dos pelotas a la vez. Toma dos balones. Bota ambos al mismo tiempo (sincronizados) a la altura de la cadera. Haz 
+                30 botos sincronizados. Luego alterna: bota un balón más alto y el otro más bajo, pero sin perder ninguno. Después, intenta hacer
+                movimientos diferentes con cada mano: con la derecha bota en V, con la izquierda bota hacia delante y atrás. Es un ejercicio excelente 
+                para la coordinación cerebral y para forzar la habilidad con la mano no dominante. Si se te cae un balón, no te frustres; sigue intentándolo.
+            </li>
+            
+            <li>Ejercicio 7: Lanzamiento sin salto a tabla (mecánica de tiro). Colócate a 1-2 metros de la canasta, de frente al tablero. Sin saltar, 
+                tira el balón a la tabla (al rectángulo blanco pintado) con una sola mano (la mano de tiro), mientras la otra mano solo guía el balón. 
+                El balón debe tocar el tablero y entrar en la canasta suavemente. Concéntrate en la mecánica: rodillas flexionadas, codo alineado, muñeca
+                que da el último impulso (los dedos apuntan hacia abajo al final). Haz 20 tiros de cada lado de la canasta y 20 de frente. Este ejercicio
+                establece los fundamentos del tiro. </li>
+            
+            <li>Ejercicio 8: Tiro en suspensión desde 5 posiciones. Coloca conos o marcas en 5 puntos de la cancha: esquina izquierda, ala izquierda 
+                (45°), cabeza (frente al aro desde la línea de tiros libres), ala derecha (45°) y esquina derecha. Desde cada posición, lanza 10 tiros 
+                en suspensión (saltando). No importa si entran o no al principio; lo importante es la técnica: salta, eleva el balón a la altura de la
+                frente, suelta en el punto más alto, muñeca final. Después de cada posición, descansa 30 segundos y anota cuántos encestaste (para medir 
+                tu progreso a lo largo del tiempo).</li>
+            
+        </ol>
+    </div>
+  </div>
+    </div>
+    
+
+<!-- ===== ATLETISMO ===== -->
+<div id="Atletismo" class="section">
+  <div style="text-align:center">
+    <div class="sport-badge"><span class="emoji">🏃‍♂️</span></div>
+  </div>
+  <h1>Atletismo</h1>
+  <div class="clearfix">
+    <img src="atletismo.jpg" class="izqui-historia" alt="Atletismo" onerror="this.style.display='none'">
+    <p>El atletismo es el deporte más antiguo y completo de la historia, considerado el "deporte rey" de los Juegos Olímpicos. Consiste en un conjunto 
+        de disciplinas que involucran carreras, saltos, lanzamientos y pruebas combinadas, todas basadas en gestos naturales del ser humano como correr, saltar y lanzar. Se practica principalmente en un estadio de atletismo que cuenta con una pista ovalada de 400 metros (para las carreras), zonas de 
+        saltos (fosa de arena y colchonetas) y zonas de lanzamiento (círculos y áreas de caída). El atletismo agrupa más de 20 especialidades diferentes, lo que lo convierte en el deporte con mayor variedad de pruebas.</p>
+  </div>
+  <h2>Objetivo</h2>
+  <div class="objetivo-box">El objetivo general del atletismo es superar a los rivales en cada disciplina específica. En las carreras, el objetivo es completar una distancia determinada en el menor tiempo posible, llegando primero a la meta. En los saltos (longitud, triple salto, altura y pértiga), el objetivo es alcanzar la mayor distancia o altura posible con un número limitado de intentos. En los lanzamientos (peso, disco, jabalina y martillo), el objetivo es enviar el implemento a la mayor distancia posible dentro de un sector de caída delimitado. En las pruebas combinadas (decatlón para hombres y heptatlón para mujeres), el objetivo es sumar la mayor cantidad de puntos al competir en múltiples disciplinas a lo largo de dos días consecutivos. Gana el atleta que, en su prueba, obtiene la mejor marca (tiempo, distancia o altura) o la mayor puntuación total.</div>
+  <div class="pos-info">
+    <div class="info">
+      <h2>Sus reglas deportivas</h2>
+      <ol>
+        <li>Regla 1: En pruebas de velocidad (100m, 200m, 400m), los atletas deben usar tacos de salida y permanecer en su carril asignado durante toda 
+            la carrera. Si un atleta pisa la línea que delimita su carril o invade otro carril, puede ser descalificado.</li>
+          
+        <li>Regla 2: La salida nula (false start) se penaliza con descalificación inmediata tras una sola infracción. Si un atleta inicia su movimiento antes del disparo, los sensores de los tacos lo detectan y se anula la salida.</li>
+          
+        <li>Regla 3: Un atleta completa la carrera cuando cualquier parte de su torso cruza la línea de meta. No vale la mano, el pie ni la cabeza; solo el tronco determina el orden de llegada.</li>
+          
+        <li>Regla 4: En carreras de relevos (4x100m y 4x400m), el testigo debe pasarse dentro de una zona de transferencia de 20 metros. Si el pase se hace fuera de esa zona, el equipo es descalificado.</li>
+          
+        <li>Regla 5: En carreras con vallas, está permitido derribar las vallas con los pies, pero no con las manos ni intencionalmente. Pasar por fuera de una valla o por debajo del travesaño es motivo de descalificación.</li>
+          
+        <li>Regla 6: En salto de longitud y triple salto, el atleta debe despegar antes de la tabla de batida. Si pisa más allá de la tabla, el salto es nulo y no se mide.</li>
+          
+        <li>Regla 7: En salto de altura y pértiga, cada atleta tiene 3 intentos por altura. Si falla los 3, queda eliminado; puede pasar alturas sin intentarlas, pero no puede volver atrás.</li>
+          
+        <li>Regla 8: En lanzamientos de peso, disco, martillo y jabalina, el atleta no puede salir del círculo o pasillo antes de que el implemento caiga al suelo. Tampoco puede pisar las líneas delimitadoras.</li>
+          
+        <li>Regla 9: En lanzamiento de jabalina, la jabalina debe caer con la punta de metal primero. Si cae de plano o de costado, el lanzamiento es nulo.</li>
+          
+        <li>Regla 10: En decatlón y heptatlón, los atletas compiten en múltiples pruebas durante dos días. Cada prueba puntúa según tablas oficiales, y gana quien suma más puntos al final.</li>
+          
+        <li>Regla 11: En carreras de 800m o más, los atletas pueden salir de sus carriles después del primer codo o de una zona de convergencia señalizada. Pueden ocupar el carril interior libremente.</li>
+          
+        <li>Regla 12: Los atletas pueden recibir agua y bebidas solo en puestos de avituallamiento autorizados (generalmente cada 2-3 km en pruebas largas). Recibir ayuda externa fuera de estos puestos puede provocar descalificación.</li>
+          
+        <li>Regla 13: El calzado puede tener un máximo de 11 clavos (púas) que no sobresalgan más de 9 mm en carreras (hasta 12 mm en saltos y lanzamientos). No se permiten dispositivos con muelles o resortes.</li>
+          
+        <li>Regla 14: Si un atleta obstaculiza a otro (empujando, bloqueando o forzándolo a salirse de su carril), puede ser descalificado. La obstaculización intencionada es falta grave.</li>
+          
+        <li>Regla 15: El dopaje está totalmente prohibido. Los ganadores y atletas seleccionados al azar son sometidos a controles antidopaje. Un positivo conlleva descalificación y suspensión de 2 a 4 años.</li>
+          
+      </ol>
+    </div>
+    <div class="info">
+      <h2>Técnicas</h2>
+      <ol>
+        <li>Técnica 1 (salida de tacos): Consta de tres fases: "a sus puestos" (pies en tacos, manos en el suelo), "listos" (caderas elevadas, peso adelante) y disparo (impulso explosivo). Los primeros pasos son muy cortos y rápidos con el tronco inclinado a 45°.</li>
+          
+        <li>Técnica 2 (aceleración inicial): Durante los primeros 10-15 metros, el tronco se mantiene muy inclinado hacia adelante y los apoyos son solo con el metatarso (sin apoyar el talón). La zancada es corta (30-40 cm) y la frecuencia muy alta.</li>
+          
+        <li>Técnica 3 (carrera de máxima velocidad): El tronco se endereza hasta una inclinación de solo 5°, la cabeza mira al frente y los brazos se mueven en ángulo de 90°. Las zancadas son largas (2.20-2.50 m) y la frecuencia alcanza 4-5 zancadas por segundo.</li>
+          
+        <li>Técnica 4 (respiración rítmica): En carreras de fondo se usa el patrón 2 pasos inhalando y 2 exhalando (2-2) o 3-2 para ritmos más lentos. La inhalación y exhalación se hacen por la boca para mayor entrada de aire.</li>
+          
+        <li>Técnica 5 (postura corporal correcta): Cabeza erguida mirando al frente, hombros relajados y hacia atrás, cadera alta y alineada con la columna. El pie debe caer directamente debajo del centro de masa, nunca por delante.</li>
+          
+        <li>Técnica 6 (paso de vallas): La pierna de ataque se extiende hacia adelante casi recta, y la pierna de tracción se flexiona y abre lateralmente. El tronco se inclina hacia adelante al pasar para no saltar demasiado alto.</li>
+          
+        <li>Técnica 7 (enlace en relevos): El corredor que recibe extiende el brazo hacia atrás con la palma arriba o abajo, y el que entrega dice "¡ya!" al llegar a distancia de brazo. El receptor no debe mirar hacia atrás.</li>
+
+        <li>Técnica 8 (carrera de impulso en longitud): Consta de 15-25 zancadas progresivas, acelerando gradualmente. Los últimos 5-6 pasos son más rápidos y rasos, y la mirada se fija en la tabla de batida.</li>
+          
+        <li>Técnica 9 (batida en salto de longitud): El pie de batida se apoya activamente justo antes de la tabla, con la pierna casi extendida pero no bloqueada. El otro pie (de oscilación) se eleva rápido con la rodilla flexionada.</li>
+          
+        <li>Técnica 10 (técnicas de vuelo en longitud): En el aire se usa "tijeras" (pedaleo de piernas), "paso extendido" (cuerpo recto) o "caída doblada" (rodillas al pecho). Al caer, se debe evitar caer hacia atrás porque esa huella es la que se mide.</li>
+          
+        <li>Técnica 11 (triple salto - fases): Primera fase "hop": despega y cae con el mismo pie. Segunda fase "step": despega con ese pie y cae con el contrario. Tercera fase "jump": cae en la fosa como en longitud.</li>
+          
+        <li>Técnica 12 (salto de altura - Fosbury Flop): Carrera curva hacia el listón, despegue con el pie lejano al listón, giro de espalda al pasar y caída sobre los hombros. El cuerpo se arquea sobre el listón para superarlo sin derribarlo.</li>
+          
+        <li>Técnica 13 (salto con pértiga - carrera y plantado): Carrera de 20-30 metros con la pértiga, plantado de la pértiga en la caja metálica, y salto impulsándose con los brazos. El atleta suelta la pértiga al pasar el listón y cae sobre la colchoneta.</li>
+          
+        <li>Técnica 14 (lanzamiento de peso - técnica O'Brien): El atleta se coloca de espaldas al área de lanzamiento, realiza un salto hacia atrás dentro del círculo, gira y empuja el peso desde el hombro. El peso no debe bajar del mentón durante el impulso.</li>
+          
+      </ol>
+    </div>
+    <div class="info">
+      <h2>Ejercicios para mejorar</h2>
+      <ol>
+        <li>Ejercicio 1 (talones al glúteo): Correr en el sitio llevando los talones a tocar los glúteos, con una frecuencia rápida y las rodillas apuntando al suelo. Se hacen 3 series de 30 segundos. Trabaja la flexión de rodilla y la frecuencia de zancada.</li>
+          
+        <li>Ejercicio 2 (rodillas arriba): Correr en el sitio o avanzando elevando las rodillas hasta la altura de la cadera (o más). Se hacen 3 series de 30 metros. Mejora la elevación de rodilla y la potencia de despegue.</li>
+          
+        <li>Ejercicio 3 (skipping progresivo): Combinación de talones-glúteo y rodillas-arriba en secuencia, avanzando de forma controlada. Se hacen 4 repeticiones de 30 metros. Es el ejercicio fundamental para la técnica de carrera.</li>
+          
+        <li>Ejercicio 4 (zancadas o lanzadas): Avanzar dando pasos largos y profundos, hundiendo la cadera hasta que la rodilla trasera casi toque el suelo. Se hacen 10 repeticiones por pierna x 3 series. Trabaja amplitud de zancada y fuerza de piernas.</li>
+          
+        <li>Ejercicio 5 (multisaltos): Saltos largos y continuos alternando una pierna y luego la otra (como un triple salto continuo). Se hacen 5 repeticiones x 4 series. Desarrolla la potencia elástica y la coordinación para saltos.</li>
+          
+        <li>Ejercicio 6 (sentadillas con salto): Bajar en sentadilla profunda y saltar explosivamente hacia arriba, ayudándose con los brazos. Se hacen 10 repeticiones x 3 series. Mejora la fuerza explosiva de las piernas para velocidad y saltos.</li>
+          
+        <li>Ejercicio 7 (saltos al cajón): Saltar sobre una caja de 30-50 cm de altura desde parado, y bajar con control (no saltar hacia atrás). Se hacen 10 saltos x 3 series. Desarrolla potencia de salida y capacidad de reacción.</li> 
+          
+        <li>Ejercicio 8 (peso muerto rumano con mancuernas): Con piernas semirrígidas, flexionar la cadera hacia atrás manteniendo la espalda recta, y volver a subir. Se hacen 8-10 repeticiones x 3 series. Fortalece isquiotibiales (clave para la velocidad).</li>
+          
+        <li>Ejercicio 9 (plancha abdominal): Mantener la posición de plancha con los antebrazos apoyados y el cuerpo recto (sin hundir la cadera ni levantarla). Se hacen 3 series de 30-60 segundos. Mejora la estabilidad del core para mantener la postura al correr.</li>
+          
+        <li>Ejercicio 10 (burpees): Desde de pie, agacharse, echar los pies atrás (posición de plancha), subir los pies hacia las manos y saltar explosivamente. Se hacen 10 repeticiones x 3 series. Trabaja resistencia muscular y capacidad anaeróbica.</li>
+          
+        <li>Ejercicio 11 (saltos de longitud desde parado): Desde parado, con pies juntos, saltar lo más lejos posible sin carrera previa. Se hacen 5 saltos x 3 series. Mide la potencia explosiva sin técnica de carrera.</li>
+          
+        <li>Ejercicio 12 (desplazamientos laterales - side shuffles): Moverse lateralmente con piernas semiflexionadas, sin cruzar las piernas (paso de arrastre). Se hacen 3 series de 30 segundos. Activa aductores y abductores, mejora la agilidad lateral.</li>
+          
+        <li>Ejercicio 13 (cuestas o cuestas arriba): Correr cuesta arriba en una pendiente suave (5-10% de inclinación) durante 60-80 metros. Se hacen 6-8 repeticiones con descanso caminando hacia abajo. Mejora la fuerza específica de carrera y la zancada.</li>
+          
+        <li>Ejercicio 14 (pogo jumps - saltos de tobillo): Saltos cortos y rápidos en el sitio con las piernas rectas, solo flexionando los tobillos (sin doblar rodillas). Se hacen 3 series de 20 saltos. Activa el tendón de Aquiles y mejora la rigidez elástica.</li> 
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- ===== NATACIÓN ===== -->
+<div id="Natación" class="section">
+  <div style="text-align:center">
+    <div class="sport-badge"><span class="emoji">🏊‍♀️</span></div>
+  </div>
+  <h1>Natación</h1>
+  <div class="clearfix">
+    <img src="natacion.jpg" class="dere-historia" alt="Natación" onerror="this.style.display='none'">
+    <p>La natación es un deporte que consiste en el desplazamiento de una persona en el agua utilizando movimientos coordinados de brazos, piernas y el resto del cuerpo, sin tocar el fondo de la piscina. Es uno de los deportes más completos y saludables porque trabaja prácticamente todos los grupos musculares mientras mejora la resistencia cardiovascular, y además el agua elimina el impacto sobre las articulaciones (ideal para personas con problemas de espalda o rodillas). La natación se puede practicar a nivel recreativo (por placer y salud) o competitivo (en piscina de 50 metros o en aguas abiertas). En competición, se divide en cuatro estilos principales: crol (estilo libre), espalda, braza y mariposa, además de pruebas combinadas donde se nadan los cuatro estilos en un mismo recorrido (estilos individuales). Las competiciones oficiales (Juegos Olímpicos, Campeonatos Mundiales) se realizan en piscinas de 50 metros de largo (piscina olímpica) con 8 o 10 carriles, y también existen pruebas en piscina de 25 metros (piscina corta) donde los récords son diferentes por los numerosos virajes.</p>
+  </div>
+  <h2>Objetivo</h2>
+  <div class="objetivo-box">El objetivo general de la natación competitiva es recorrer una distancia determinada en el menor tiempo posible, cumpliendo estrictamente con la técnica específica de cada estilo y con las reglas de viraje y salida. En las pruebas individuales (desde 50 metros hasta 1500 metros en piscina), gana el nadador que toca la pared primero al final de la distancia. En las pruebas de relevos (4x100m y 4x200m estilo libre, y 4x100m estilos), gana el equipo que completa la distancia total en el menor tiempo, con cada nadador realizando su segmento y tocando la pared para que el siguiente compañero comience (la salida del siguiente nadador puede ser anticipada, pero no puede despegar antes de que el compañero toque la pared). En aguas abiertas (5km, 10km, 25km), el objetivo es completar el recorrido en el menor tiempo posible, pero la salida es masiva (todos juntos desde la playa o una plataforma) y no hay carriles, por lo que la navegación (saber nadar en línea recta) es una habilidad clave. Gana el nadador que toca la meta primero, y no hay tiempos por eliminatorias como en piscina.</div>
+  <div class="pos-info">
+    <div class="info">
+      <h2>Sus reglas deportivas</h2>
+      <ol>
+        <li>Regla 1: En estilo libre (crol), el nadador puede nadar cualquier estilo, aunque todos usan crol por ser el más rápido. Parte del cuerpo debe romper la superficie en todo momento excepto en virajes y primeros 15 metros tras salida.</li>
+          
+        <li>Regla 2: En espalda, el nadador debe nadar siempre mirando hacia arriba (boca arriba) y solo puede girar hacia el pecho durante el viraje o al finalizar. La salida se realiza dentro del agua, agarrado a las paredes de salida.</li>
+          
+        <li>Regla 3: En braza, los brazos deben moverse simultáneamente y de forma simétrica (como una rana), y las piernas deben hacer la patada de rana. La cabeza debe romper la superficie en cada ciclo completo de brazada.</li>
+          
+        <li>Regla 4: En mariposa, los brazos se mueven simultáneamente hacia adelante sobre el agua, y las piernas realizan la patada de delfín (ambas piernas juntas). El cuerpo hace un movimiento ondulatorio desde la cabeza hasta los pies.</li>
+          
+        <li>Regla 5: En estilos individuales (combinado), se nadan los cuatro estilos en este orden: mariposa → espalda → braza → crol. Cada estilo debe cumplir sus reglas específicas durante su segmento correspondiente.</li>
+          
+        <li>Regla 6: La salida en crol, braza y mariposa se realiza con un salto desde el podio (bloque de salida). El nadador debe permanecer quieto hasta la señal acústica (disparo o pitido).</li>
+          
+        <li>Regla 7: Una salida en falso (false start) provoca la descalificación automática del nadador. En competiciones internacionales, una sola salida en falso es suficiente para ser descalificado.</li>
+
+        <li>Regla 8: En cada viraje, el nadador debe tocar la pared con alguna parte del cuerpo. En espalda, puede tocar la pared mientras está de espaldas o girar sobre el pecho en el último golpe de brazo.</li>
+          
+        <li>Regla 9: Cada nadador debe permanecer en su carril asignado durante toda la prueba. Si un nadador interfiere con otro nadador (por ejemplo, invadiendo su carril), puede ser descalificado.</li>
+
+        <li>Regla 10: El final de la prueba ocurre cuando alguna parte del cuerpo del nadador toca la pared al final del último largo. En llegadas ajustadas, los jueces usan el sistema de toque electrónico (placas en la pared).</li>
+          
+        <li>Regla 11: En crol y espalda, el nadador no puede caminar o impulsarse con el fondo de la piscina en ningún momento. Siempre debe estar en contacto con el agua o impulsándose de la pared.</li>
+
+        <li>Regla 12: En mariposa y braza, los brazos deben recuperarse por encima del agua (mariposa) o por debajo (braza), pero siempre de forma simultánea. Los movimientos asimétricos son falta.</li>
+          
+        <li>Regla 13: En braza, las manos no pueden pasar más allá de la línea de la cadera durante la brazada. Tampoco se puede usar la patada de delfín (solo patada de rana).</li>
+
+        <li>Regla 14: En relevos, el nadador que sigue no puede despegar del podio hasta que el compañero que termina toque la pared. Si despega antes, el equipo es descalificado.</li>
+
+        <li>Regla 15: En pruebas de 50 metros, no hay viraje (solo un largo). En pruebas de 100m, 200m, 400m, 800m y 1500m, hay múltiples virajes (tantos como largos se naden).</li>
+
+        <li>Regla 16: El nado subacuático está permitido solo hasta 15 metros después de la salida y después de cada viraje. Pasados 15 metros, la cabeza debe romper la superficie.</li>
+
+        <li>Regla 17: Los nadadores pueden usar gafas, gorro y bañador de competición (de tejido textil o poliuretano, con ciertas restricciones de grosor y flotabilidad). No se permiten dispositivos propulsores.</li>
+
+        <li>Regla 18: En caso de empate en el tiempo (misma centésima), se declaran dos ganadores o se realiza un desempate (swim-off) si es necesario para deshacer el empate en eliminatorias.</li>
+          
+        <li>Regla 19: En piscina de 50 metros (olímpica), las pruebas se nadan en largos de 50m. En piscina de 25 metros (corta), los largos son de 25m y hay el doble de virajes.</li>
+          
+        <li>Regla 20: El nadador que abandona una prueba voluntariamente o no se presenta a la salida es descalificado de esa prueba, pero puede competir en otras si no había inscripción condicionada.</li>
+          
+      </ol>
+    </div>
+    <div class="info">
+      <h2>Técnicas</h2>
+      <ol>
+        <li>Técnica 1 (posición corporal en crol): Cuerpo horizontal y alineado, cabeza mirando hacia abajo con el agua cubriendo la nuca, caderas cerca de la superficie. El cuerpo rota ligeramente (30-40°) con cada brazada para alargar el alcance.</li>
+          
+        <li>Técnica 1 (posición corporal en crol): Cuerpo horizontal y alineado, cabeza mirando hacia abajo con el agua cubriendo la nuca, caderas cerca de la superficie. El cuerpo rota ligeramente (30-40°) con cada brazada para alargar el alcance.</li>
+          
+        <li>Técnica 3 (fase aérea del brazo en crol - recuperación): El codo sale primero del agua y se mantiene elevado (más alto que la mano) mientras el brazo se relaja hacia adelante. La mano entra suavemente al agua delante del hombro.</li>
+          
+        <li>Técnica 4 (patada de crol): Patada alterna y constante desde la cadera (no desde la rodilla), con los pies relajados y apuntando hacia atrás. La amplitud es pequeña pero la frecuencia es alta (3-6 patadas por ciclo de brazos).</li>
+          
+        <li>Técnica 5 (respiración en crol): Girar la cabeza hacia un lado cuando el brazo del mismo lado se recupera sobre el agua. Inhalar por la boca, exhalar por la nariz o boca bajo el agua mientras el brazo está dentro.</li>
+          
+        <li>Técnica 6 (posición corporal en espalda): Cuerpo horizontal sobre la espalda, cabeza mirando hacia arriba con las orejas justo en la superficie. La barbilla ligeramente hacia el pecho evita que la cabeza se hunda.</li>
+          
+        <li>Técnica 7 (brazada de espalda): Movimiento alterno similar al crol pero boca arriba: el brazo entra con el meñique primero y tira del agua en "S" hacia el costado del cuerpo. La recuperación es con el brazo recto por encima del agua.</li>
+
+        <li>Técnica 8 (patada de espalda): Patada alterna similar a la del crol pero boca arriba, manteniendo las piernas cerca de la superficie. Las rodillas no deben romper la superficie; el movimiento es desde la cadera.</li>
+          
+        <li>Técnica 9 (posición corporal en braza): Cuerpo casi horizontal pero con el pecho ligeramente elevado. Los hombros suben y bajan durante el ciclo, y la cabeza sale del agua para respirar en cada brazada.</li>
+          
+        <li>Técnica 10 (brazada de braza): Manos juntas delante del pecho, se abren hacia los lados y hacia atrás (haciendo presión sobre el agua), y luego vuelven a juntarse delante del pecho. El movimiento es corto y potente.</li>
+          
+        <li>Técnica 11 (patada de braza - rana): Piernas dobladas hacia los glúteos, pies rotados hacia afuera (dorsiflexión), y patada hacia atrás y hacia afuera. Las piernas se juntan al final del movimiento con las plantas de los pies mirando atrás.</li>
+          
+        <li>Técnica 12 (respiración en braza): Inhalar cuando levantas la cabeza hacia adelante (en la fase de brazada que las manos se juntan bajo el pecho). Exhalar mientras extiendes los brazos hacia adelante y pateas.</li>
+          
+        <li>Técnica 13 (posición corporal en mariposa): Movimiento ondulatorio desde la cabeza hasta los pies (como un delfín). El pecho y las caderas suben y bajan en fases alternas con un ritmo continuo.</li>
+          
+        <li>Técnica 14 (brazada de mariposa): Ambos brazos entran al agua juntos por delante de los hombros, tiran del agua hacia atrás hasta las caderas, y luego salen juntos por el aire para recuperarse. Movimiento simultáneo y potente.</li>
+          
+        <li>Técnica 15 (patada de delfín en mariposa): Ambas piernas juntas se mueven hacia abajo y hacia arriba simultáneamente. La patada hacia abajo es la más potente y coincide con la entrada de los brazos al agua.</li>
+          
+        <li>Técnica 16 (respiración en mariposa): Levantar la cabeza hacia adelante (mirando al frente) durante la fase de tirón de los brazos bajo el agua. Inhalar rápido y volver a sumergir la cabeza antes de que los brazos vuelvan a entrar.</li>
+          
+        <li>Técnica 17 (viraje de crol y espalda - voltereta): Cuando la cabeza está a un metro de la pared, se hace una voltereta hacia adelante (crol) o hacia atrás (espalda), los pies tocan la pared, y se impulsa hacia atrás. El cuerpo sale girando para quedar boca abajo.</li>
+          
+        <li>Técnica 18 (viraje de braza y mariposa - toque y giro): Se toca la pared con ambas manos simultáneamente a la misma altura. Luego se suelta una mano, se gira el cuerpo, se apoyan los pies en la pared y se impulsa hacia atrás.</li>
+          
+        <li>Técnica 19 (salida desde el podio - crol, braza, mariposa): Manos agarradas al borde del podio, pies apoyados en el borde trasero del podio (o en el agua), y al disparo se lanza el cuerpo hacia adelante en posición de flecha. El cuerpo debe entrar al agua por un mismo punto.</li>
+          
+        <li>Técnica 20 (salida de espalda desde dentro del agua): Manos agarradas a las paredes de salida o a las barras horizontales, pies apoyados en la pared (por debajo del agua), y al disparo se impulsa hacia atrás arqueando la espalda. La cabeza sale del agua después de unos metros.</li>
+          
+      </ol>
+    </div>
+    <div class="info">
+      <h2>Ejercicios para mejorar</h2>
+      <ol>
+        <li>Ejercicio 1 (nadar a "punto muerto" - catch up): Extiende un brazo hacia adelante y no lo muevas hasta que el otro brazo complete su brazada y lo "alcance". Alterna con cada brazo cada 25m. Trabaja la coordinación y el alargamiento de la brazada.</li>
+          
+        <li>Ejercicio 2 (nadar con un solo brazo): Nada usando solo un brazo mientras el otro permanece extendido hacia adelante o pegado al cuerpo. Alterna cada 25m (derecha e izquierda). Ayuda a aislar y corregir la técnica de cada brazo.</li>
+          
+        <li>Ejercicio 3 (fase subacuática exagerada): Al nadar, concéntrate en hacer el tirón subacuático completo: mano entra, agarra, tira en "S" y termina junto al muslo. Notarás mayor propulsión. Haz series de 50m.</li>
+          
+        <li>Ejercicio 4 (puños cerrados - closed fists): Nada con los puños cerrados en lugar de manos abiertas. Te obliga a usar el antebrazo para agarrar agua. Mejora la sensibilidad del agarre cuando vuelves a abrir las manos.</li>
+          
+        <li>Ejercicio 5 (remo o sculling - manos en "8"): En posición horizontal, haz pequeños movimientos laterales con las manos (como si amasaras agua) sin mover los brazos. Trabaja la sensación de agarre del agua y la presión en las palmas.</li>
+        
+        <li>Ejercicio 6 (patada con tabla - flotador): Sostén una tabla con los brazos extendidos y patea solo con las piernas (crol, espalda o mariposa). Haz 4x50m con descanso 20". Fortalece las piernas y mejora la posición corporal.</li>
+          
+        <li>Ejercicio 7 (patada lateral con un brazo extendido): Boca abajo, mantén un brazo extendido hacia adelante y el otro pegado al cuerpo. Gira la cabeza hacia el lado del brazo extendido para respirar. Trabaja la patada y la alineación.</li>
+          
+        <li>Ejercicio 8 (patada vertical en el lugar): En agua profunda (donde no toques fondo), mantente en posición vertical y patea para mantener la cabeza fuera del agua. Haz 3 series de 30 segundos. Excelente para fortalecer piernas y core.</li>
+          
+        <li>Ejercicio 9 (patada de espalda con tabla): Boca arriba, sostén la tabla sobre el pecho o sobre la cabeza (brazos extendidos), y patea solo con las piernas. Haz 4x50m. Mejora la patada de espalda sin la distracción de los brazos.</li>
+          
+        <li>Ejercicio 10 (patada de mariposa con tabla - delfín): Boca abajo, sostén la tabla y realiza la patada ondulatoria de mariposa (ambas piernas juntas). Siente la ondulación desde las caderas y los abdominales. Haz 4x25m.</li>
+        
+        <li>Ejercicio 11 (patada de braza con tabla): Boca abajo, sostén la tabla y practica la patada de rana específica de braza (rodillas juntas, pies hacia afuera, patada hacia atrás). Haz 4x25m con descanso 20". Trabaja la coordinación de piernas.</li>
+          
+        <li>Ejercicio 12 (respirar cada 3, 5 o 7 brazadas en crol): Haz series de 50m respirando cada 3 brazadas, luego cada 5, luego cada 7. Aumenta la capacidad pulmonar y mejora el control del ritmo respiratorio.</li>
+          
+        <li>Ejercicio 13 (respiración bilateral - alternar lados): Respira un ciclo hacia la derecha, otro hacia la izquierda, otro hacia la derecha, etc. Haz 4x50m. Fundamental para nadar recto en aguas abiertas y mantener técnica simétrica.</li>
+          
+        <li>Ejercicio 14 (respiración al lado desfavorable): Si normalmente respiras hacia tu lado derecho, practica respirar solo hacia el izquierdo durante 100m. Mejora la simetría y la capacidad de respirar en cualquier dirección.</li>
+          
+        <li>Ejercicio 15 (nadar combinando un brazo + punto muerto): Nada una brazada con un brazo, luego espera con ambos brazos extendidos (punto muerto), luego brazada con el otro brazo, y espera de nuevo. Trabaja la coordinación y el ritmo.</li>
+          
+        <li>Ejercicio 16 (nadar exagerando la rotación corporal en crol): Gira el cuerpo mucho más de lo normal (casi de lado en cada brazada) durante 50m. Luego reduce gradualmente a 30-40°. Ayuda a entender el rolido y la conexión cadera-hombros.</li>
+          
+        <li>Ejercicio 17 (nadar suave - nado cognitivo o consciente): Nada muy lento (25m en 45-60 segundos), prestando atención consciente a cada movimiento: entrada de mano, rotación, respiración, patada. Es un ejercicio de técnica pura.</li>
+          
+        <li>Ejercicio 18 (entrenamiento de virajes - volteretas repetidas): Practica volteretas en el agua sin nadar: desde el borde de la piscina, haz volteretas una tras otra cada 5 metros. Haz 10 volteretas. Automatiza el viraje de crol y espalda.</li>
+          
+        <li>Ejercicio 19 (salidas desde el podio - posiciones): Practica la salida desde el podio: "a sus puestos" (pies en el borde), "listos" (cuerpo inclinado), y lanzamiento en posición de flecha. Haz 10 salidas. Mejora la reacción y la entrada al agua.</li>
+          
+        <li>Ejercicio 20 (nadar con aletas cortas): Usa aletas cortas (no largas de buceo) para nadar crol o mariposa. Las aletas aumentan la velocidad de la patada y ayudan a sentir la posición corporal correcta. Haz 4x50m.</li>
+          
+          
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- ===== AJEDREZ ===== -->
+<div id="Ajedrez" class="section">
+  <div style="text-align:center">
+    <div class="sport-badge"><span class="emoji">♟</span></div>
+  </div>
+  <h1>Ajedrez</h1>
+  <div class="clearfix">
+    <img src="Ajedrez.jpg" class="izqui-historia" alt="Ajedrez" onerror="this.style.display='none'">
+    <p>El ajedrez es un juego de mesa estratégico para dos jugadores que se disputa sobre un tablero cuadrado de 64 casillas (8x8) de colores alternos, conocido como "tablero de ajedrez" . Cada jugador comienza la partida con 16 piezas: un rey, una dama, dos torres, dos alfiles, dos caballos y ocho peones, cada una con movimientos específicos y diferentes capacidades de desplazamiento sobre el tablero . El juego tiene más de 1000 años de antigüedad y es considerado uno de los juegos de mesa más antiguos del mundo, además de ser reconocido como deporte por el Comité Olímpico Internacional . Las piezas blancas y negras se colocan simétricamente al inicio, con la regla nemotécnica "dama en su color" (la dama blanca en casilla blanca y la dama negra en casilla negra) .</p>
+  </div>
+  <h2>Objetivo</h2>
+  <div class="objetivo-box">El objetivo fundamental del ajedrez es dar jaque mate al rey del oponente, es decir, amenazar al rey adversario con una captura de la que no pueda escapar mediante ningún movimiento legal . El jugador que consigue esto gana la partida inmediatamente, sin necesidad de capturar físicamente el rey. Si un rey está amenazado de captura, el jugador debe realizar cualquier movimiento que saque a su rey del peligro (moverlo, bloquear la amenaza o capturar la pieza atacante) . Cuando un jugador no tiene ningún movimiento legal disponible pero su rey no está en jaque, la partida termina en tablas (empate) por ahogado. Las partidas también pueden terminar en tablas por acuerdo mutuo, por repetición de posición tres veces, o por falta de material suficiente para dar mate . Tradicionalmente, las blancas inician la partida, lo que les otorga una ligera ventaja estadística (aproximadamente 55% de los puntos frente al 45% de las negras) .</div>
+  <div class="pos-info">
+    <div class="info">
+      <h2>Sus reglas deportivas</h2>
+      <ol>
+        <li>Regla 1: El tablero se coloca con una casilla blanca en la esquina inferior derecha de cada jugador. Las blancas se ubican en las filas 1 y 2, mientras que las negras ocupan las filas 7 y 8 .</li>
+          
+        <li>Regla 2: La dama se coloca en la casilla central del mismo color que sus piezas (blanca en casilla blanca, negra en casilla negra). El rey se sitúa en la casilla restante junto a la dama .</li>
+          
+        <li>Regla 3: Los jugadores mueven alternativamente una pieza por turno, comenzando siempre las blancas. No se puede "pasar" el turno voluntariamente .</li>
+          
+        <li>Regla 4: Cada pieza se mueve de manera específica: la torre en horizontal/vertical, el alfil en diagonal, la dama en ambas direcciones . El caballo se mueve en forma de "L" (dos casillas en una dirección y una perpendicular) y es la única pieza que puede saltar sobre otras .</li>
+          
+        <li>Regla 5: El rey se mueve una casilla en cualquier dirección y nunca puede moverse a una casilla donde quedaría en jaque. El rey no puede ser capturado bajo ninguna circunstancia .</li>
+          
+        <li>Regla 6: Los peones avanzan una casilla hacia adelante (dos en su primer movimiento) y capturan en diagonal. Los peones no pueden retroceder nunca .</li>
+          
+        <li>Regla 7: El enroque es un movimiento especial que mueve el rey dos casillas hacia una torre, y la torre salta a la casilla junto al rey. Solo es posible si ni el rey ni la torre han movido antes y no hay piezas entre ellos .</li>
+          
+        <li>Regla 8: No se puede enrocar si el rey está en jaque, si la casilla por la que pasa está atacada, o si la casilla de destino está atacada. El rey no puede pasar por casillas amenazadas .rlo.</li>
+          
+        <li>Regla 9: La captura al paso permite a un peón capturar otro peón que acaba de avanzar dos casillas junto a él. Solo puede realizarse inmediatamente después del avance del peón rival .</li>
+          
+        <li>Regla 10: Cuando un peón llega a la última fila (octava para blancas, primera para negras), debe coronarse a dama, torre, alfil o caballo. Opcionalmente, puede coronarse a más de una dama (máximo 9) .</li>
+          
+        <li>Regla 11: El jaque ocurre cuando una pieza amenaza directamente al rey enemigo. El jugador debe responder obligatoriamente protegiendo a su rey (moviéndolo, bloqueando o capturando) .</li>
+          
+        <li>Regla 12: El jaque mate es la situación donde el rey está en jaque y no existe ningún movimiento legal para salir de él. Quien da jaque mate gana la partida inmediatamente .</li>
+          
+        <li>Regla 13: El ahogado ocurre cuando un jugador no tiene movimientos legales disponibles pero su rey no está en jaque. Esto produce tablas (empate) inmediatas .</li>
+          
+        <li>Regla 14: La partida termina en tablas si la misma posición se repite tres veces con el mismo jugador para mover. También hay tablas por falta de material suficiente para dar mate .</li>
+          
+        <li>Regla 15: No se puede tocar una pieza sin intención de moverla ("pieza tocada, pieza movida"). Si se toca una pieza del oponente, se debe capturar si es posible .</li>
+          
+        <li>Regla 16: En competiciones con reloj, el jugador que excede su tiempo límite pierde la partida. La única excepción es si el oponente no tiene material suficiente para dar mate .</li>
+          
+        <li>Regla 17: Si una posición es tan desfavorable que cualquier movimiento empeora la situación, se llama zugzwang. El jugador está obligado a mover aunque todos los movimientos sean malos .</li>
+          
+      </ol>
+    </div>
+    <div class="info">
+      <h2>Técnicas</h2>
+      <ol>
+        <li>Técnica 1 (Desarrollo de piezas): Consiste en sacar los caballos y alfiles (piezas menores) en las primeras jugadas antes que la dama. El objetivo es controlar el centro y preparar el enroque temprano para proteger al rey .</li>
+          
+        <li>Técnica 2 (Control del centro): Dominar las casillas centrales d4, d5, e4 y e5 permitiendo mayor movilidad de las piezas. Un buen control del centro facilita ataques y defensas en todo el tablero .</li>
+          
+        <li>Técnica 3 (Apertura Española o Ruy López): Secuencia e4 e5, Cf3 Cc6, Ab5 que presiona al caballo de c6. Es una de las aperturas más clásicas y estratégicas para las blancas .
+
+</li>
+          
+        <li>Técnica 4 (Gambito de Dama): Las blancas juegan d4, d5, c4 "regalando" un peón por control del centro. Si el rival acepta, se obtiene un desarrollo más rápido de piezas .</li>
+          
+        <li>Técnica 5 (Defensa Siciliana): Las negras responden a e4 con c5 creando una posición asimétrica y de contrajuego. Es la defensa más popular entre jugadores agresivos y de alto nivel .</li>
+          
+        <li>Técnica 6 (Jaque doble): Una jugada donde dos piezas atacan al rey simultáneamente, obligándolo a moverse. Es especialmente potente cuando el jaque lo da un caballo porque no se puede bloquear .</li>
+          
+        <li>Técnica 7 (Clavada o pín): Una pieza queda inmovilizada porque detrás de ella está el rey o una pieza más valiosa. No puede moverse sin exponer la pieza de mayor valor a captura .</li>
+          
+        <li>Técnica 8 (Ataque a la descubierta): Mover una pieza libera la línea de ataque de otra pieza oculta detrás. Si la pieza descubierta ataca al rey, se llama jaque a la descubierta .</li>
+          
+        <li>Técnica 9 (Desviación o atracción): Sacrificar una pieza para apartar una pieza defensora de su función clave. Se obliga al rival a mover una pieza que protegía una casilla o a otra pieza valiosa .</li>
+          
+        <li>Técnica 10 (Eliminación del defensor): Capturar la pieza que protege a otra pieza más valiosa. Tras eliminar al defensor, la pieza objetivo queda indefensa y puede ser capturada .</li>
+          
+        <li>Técnica 11 (Horquilla o tenedor): Una sola pieza (generalmente caballo o peón) ataca dos piezas enemigas a la vez. El rival solo puede salvar una de ellas .</li>
+          
+        <li>Técnica 12 (Mate de la última fila): Una torre o dama da jaque al rey atrapado en su última fila por sus propias piezas. Es uno de los mates más comunes en principiantes .</li>
+          
+        <li>Técnica 13 (Intercepción): Colocar una pieza entre dos piezas atacantes para bloquear líneas de ataque. Se usa para cortar la comunicación entre piezas rivales que se apoyan mutuamente .</li>
+          
+        <li>Técnica 14 (Sobrecarga): Una pieza rival tiene demasiadas funciones defensivas (protege dos piezas a la vez). Al atacar una de ellas, la pieza sobrecargada no puede defender ambas .</li>
+          
+        <li>Técnica 15 (Red de mate): Rodear al rey rival cortando todas sus casillas de escape sin dar jaque inmediato. Una vez creada la red, cualquier jaque será inevitablemente mate .</li>
+          
+        <li>Técnica 16 (Sacrificio de calidad): Entregar una torre por una pieza menor (caballo o alfil) para obtener una ventaja posicional. Suele ser el primer paso de una combinación más larga y ganadora .</li>
+          
+        <li>Técnica 17 (Zugzwang): Forzar al rival a moverse cuando cualquier movimiento empeora su posición. Es especialmente efectivo en finales donde quedan pocas piezas en el tablero .</li>
+         
+      </ol>
+    </div>
+    <div class="info">
+      <h2>Ejercicios para mejorar</h2>
+      <ol>
+        <li>Ejercicio 1 (Resolver mates en 1): Coloca posiciones donde se pueda dar jaque mate en una sola jugada. Intenta encontrar la jugada ganadora en menos de 30 segundos. Desarrolla la visión inmediata de mate .</li>
+          
+        <li>Ejercicio 2 (Resolver mates en 2): Posiciones donde se requiere una jugada previa antes del mate final. La primera jugada suele ser un jaque, una captura o una amenaza que fuerza la respuesta rival .</li>
+          
+        <li>Ejercicio 3 (Problemas de tenedor u horquilla): Identifica posiciones donde un caballo o peón pueda atacar dos piezas a la vez. Practica este patrón táctico con al menos 10 ejercicios diarios .</li>
+          
+        <li>Ejercicio 4 (Problemas de clavada): Encuentra la pieza enemiga que no puede moverse sin exponer una pieza mayor. Aprende a identificar clavadas absolutas (contra el rey) y relativas (contra dama o torre) .</li>
+          
+        <li>Ejercicio 5 (Calentamiento de 5 minutos): Resuelve 3-5 acertijos sencillos cronometrados antes de cada sesión. Activa el pensamiento táctico y prepara la mente para cálculos más profundos .</li>
+          
+        <li>Ejercicio 6 (Ejercicios de patrón diario): Dedica 10 minutos diarios a practicar un solo tema táctico (por ejemplo, solo jaques dobles). La repetición espaciada ayuda a automatizar el reconocimiento de patrones .</li>
+          
+        <li>Ejercicio 7 (Análisis de partidas propias): Revisa tus partidas perdidas y busca las tácticas que pasaste por alto. Hazlo físicamente en un tablero real para mejorar la memoria visual .</li>
+          
+        <li>Ejercicio 8 (Práctica de aperturas): Juega las primeras 5-10 jugadas de una apertura famosa (Española, Italiana, Siciliana). Memoriza las ideas clave de desarrollo y control del centro .</li>
+          
+        <li>Ejercicio 9 (Ejercicio de cálculo): Sin mover piezas, calcula 3 jugadas adelante para una posición dada. Comienza con posiciones simples y aumenta la profundidad gradualmente .</li>
+          
+        <li>Ejercicio 10 (Rompecabezas de torres en la última fila): Practica mates de última fila con torres y damas. Aprende a identificar reyes encerrados por sus propios peones .</li>
+          
+        <li>Ejercicio 11 (Ejercicios de desviación): Posiciones donde debes sacrificar una pieza para apartar un defensor clave. El objetivo es dejar desprotegida la pieza o casilla que quieres atacar .</li>
+          
+        <li>Ejercicio 12 (Entrenamiento con ajedrez a ciegas): Visualiza posiciones sin ver el tablero físico usando solo la memoria. Mejora la capacidad de cálculo y la concentración mental .</li>
+          
+        <li>Ejercicio 13 (Práctica de finales básicos): Juega finales simples como rey y dama contra rey, o rey y torre contra rey. Aprende las técnicas exactas para dar mate en cada tipo de final .</li>
+          
+        <li>Ejercicio 14 (Estudio de partidas de maestros): Analiza partidas de grandes jugadores como Morphy o Fischer. Comprende cómo aplicaban las tácticas y estrategias en situaciones reales .</li>
+          
+        <li>Ejercicio 15 (Ejercicios con repetición espaciada): Resuelve los mismos acertijos después de 1, 3, 7 y 14 días. Este método consolida los patrones en la memoria a largo plazo .</li>
+          
+        <li>Ejercicio 16 (Entrenamiento de reflejos tácticos): Usa plataformas como Chess.com o Lichess para resolver puzzles cronometrados. El objetivo es reconocer patrones tácticos en menos de 10 segundos .</li>
+          
+        <li>Ejercicio 17 (Práctica de eliminación del defensor): Identifica qué pieza rival protege a otra y busca formas de capturarla primero. Es una técnica fundamental para ataques exitosos .</li>
+         
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ECUAVOLEY ===== -->
+<div id="Ecuavoley" class="section">
+  <div style="text-align:center">
+    <div class="sport-badge"><span class="emoji">🏐</span></div>
+  </div>
+  <h1>Ecuavoley</h1>
+  <div class="clearfix">
+    <img src="ecuavoley.jpg" class="dere-historia" alt="Ecuavoley" onerror="this.style.display='none'">
+    <p>El ecuavóley es una variante ecuatoriana del voleibol tradicional que nació en los barrios populares de Quito y otras ciudades andinas de Ecuador, siendo uno de los deportes más practicados en el país después del fútbol . A diferencia del voleibol convencional que se juega con 6 jugadores por lado, el ecuavóley se caracteriza por equipos de 3 jugadores por equipo (colocador, volador y servidor) y una cancha más pequeña, lo que lo hace más rápido, dinámico y con menos toques por posesión . El balón es similar al de voleibol pero un poco más pesado, y se juega tanto en canchas de tierra como de cemento o parquet, al aire libre o en espacios cubiertos. Las posiciones son fijas (cada jugador tiene un rol especializado), a diferencia del voleibol tradicional donde todos rotan, lo que permite un alto nivel de especialización técnica en cada puesto .</p>
+  </div>
+  <h2>Objetivo</h2>
+  <div class="objetivo-box">El objetivo fundamental del ecuavóley es enviar el balón por encima de la red al campo contrario impidiendo que el rival lo devuelva, logrando que el balón toque el suelo del equipo contrario para anotar punto . Cada vez que el balón toca el suelo rival o el equipo contrario comete una falta (saque fuera, retención, toque de red, etc.), el equipo que atacó anota un punto. El partido se juega generalmente al mejor de 3 sets (ganan 2) o al mejor de 5 sets (ganan 3), y cada set se juega a 15 puntos con diferencia mínima de 2 puntos . La principal diferencia con el voleibol es la regla de los 2 toques (máximo 2 toques por equipo para devolver el balón, no 3 como en voleibol), lo que acelera enormemente el juego y exige una toma de decisiones mucho más rápida. Gana el equipo que primero alcanza el número de sets establecido o los puntos necesarios según la competencia.</div>
+  <div class="pos-info">
+    <div class="info">
+      <h2>Sus reglas deportivas</h2>
+      <ol>
+        <li>Regla 1: El ecuavóley se juega con equipos de 3 jugadores por lado (colocador, volador y servidor). Las posiciones son fijas, no hay rotación como en el voleibol tradicional .</li>
+          
+        <li>Regla 2: La regla más característica es el máximo de 2 toques por equipo para devolver el balón. No hay 3 toques como en voleibol, lo que acelera el juego .</li>
+          
+        <li>Regla 3: Los 2 toques pueden ser: pase de antebrazos (mancheta), pase de dedos (voleo) o remate. El equipo debe decidir rápido cómo usar sus dos toques .</li>
+          
+        <li>Regla 4: El primer toque suele ser la recepción del saque o ataque rival (con mancheta). El segundo toque debe enviar el balón al campo contrario, ya sea con pase o remate.</li>
+          
+        <li>Regla 5: El balón puede tocar la red durante el saque y seguir siendo válido. Esto es diferente al voleibol tradicional donde el saque no puede tocar la red .</li>
+          
+        <li>Regla 6: No se puede retener, empujar o acompañar el balón con las manos. El contacto debe ser limpio y seco (golpe de antebrazos o toque de dedos seco) .</li>
+          
+        <li>Regla 7: Un jugador no puede tocar la red durante el juego. Si lo hace, es falta y punto para el equipo contrario, igual que en voleibol.li>
+          
+        <li>Regla 8: No se puede pisar el campo contrario por debajo de la red ni interferir en el juego del rival. La invasión es falta.</li>
+          
+        <li>Regla 9: El balón que toca la línea se considera dentro del campo. Fuera es cuando cae completamente fuera de las líneas laterales o de fondo.</li>
+          
+        <li>Regla 10: Cada punto se anota cuando el balón toca el suelo rival o el equipo rival comete una falta. No hay "cambio de saque" como en voleibol antiguo.</li>
+          
+        <li>Regla 11: El saque se realiza desde detrás de la línea de fondo, puede ser de abajo o de arriba (con salto o sin salto). El balón debe pasar por encima de la red .</li>
+          
+        <li>Regla 12: En el saque, el balón no puede caer fuera del campo contrario. El saque largo (fuera de fondo) otorga punto al rival.</li>
+          
+        <li>Regla 13: El balón puede ser golpeado con cualquier parte del cuerpo de forma involuntaria. Pero el golpe intencional con pierna o pie no está permitido.</li>
+          
+        <li>Regla 14: Si dos jugadores del mismo equipo tocan el balón simultáneamente, se cuenta como un solo toque. Cualquiera de ellos puede hacer el siguiente toque.</li>
+          
+        <li>Regla 15: El partido se juega al mejor de 3 sets (ganan 2) o al mejor de 5 sets (ganan 3). Cada set se juega a 15 puntos con diferencia de 2.</li>
+          
+        <li>Regla 16: En caso de empate 14-14, se continúa jugando hasta que un equipo tenga ventaja de 2 puntos (ejemplo: 16-14, 17-15). No hay límite máximo de puntos.</li>
+          
+        <li>Regla 17: El servidor no puede pisar la línea de fondo al momento del saque. Si lo hace, es falta y se anota punto para el rival.</li>
+          
+        <li>Regla 18: El bloqueo no cuenta como toque. Después de un bloqueo, el equipo que bloqueó tiene derecho a 2 toques adicionales para devolver el balón.</li>
+          
+        <li>Regla 19: Los jugadores no pueden solicitar tiempo muerto en medio de la jugada. Solo cuando el balón está muerto (fuera o falta señalada).</li>
+          
+        <li>Regla 20: El jugador que es sustituido puede volver a ingresar una sola vez por set (excepto por lesión). Las sustituciones son limitadas.
+
+</li>
+          
+      </ol>
+    </div>
+    <div class="info">
+      <h2>Técnicas</h2>
+      <ol>
+        <li>Técnica 1 (Recepción o mancheta - voleo bajo): Se utilizan los antebrazos para recibir el saque o remate rival, con las manos juntas (una sobre otra, pulgares paralelos). Brazos extendidos y cuerpo flexionado para dirigir el balón al colocador .</li>
+          
+        <li>Técnica 2 (Colocación o voleo alto): El colocador recibe el balón (generalmente de la recepción) con las manos en forma de copa sobre la frente. Con un movimiento de muñecas y dedos, eleva el balón cerca de la red para que el volador remate .</li>
+          
+        <li>Técnica 3 (Remate o ataque): El volador salta, extiende el brazo hacia atrás y golpea el balón con la mano abierta, enviándolo hacia abajo en el campo contrario. Es el tiro más ofensivo y poderoso .</li>
+          
+        <li>Técnica 4 (Saque de abajo): Golpe con el brazo recto y la mano cerrada o abierta, llevando el brazo hacia atrás y golpeando el balón a la altura de la cintura. Saque más controlado y seguro para principiantes .</li>
+          
+        <li>Técnica 5 (Saque de arriba con salto): Lanzar el balón hacia arriba, saltar y golpear con la mano abierta en el punto más alto del salto. Es el saque más potente y difícil de recibir .</li>
+          
+        <li>Técnica 6 (Finta o dejada): En lugar de rematar fuerte, se toca suavemente el balón para que caiga justo detrás de la red o en un espacio vacío. Es un recurso táctico engañoso.</li>
+          
+        <li>Técnica 7 (Bloqueo): El jugador cerca de la red salta con brazos extendidos verticalmente para interceptar el remate rival o reducir su potencia. No cuenta como toque.</li>
+          
+        <li>Técnica 8 (Defensa en el fondo): Los jugadores en la parte trasera del campo se preparan para recibir remates fuertes con mancheta. Deben anticipar la dirección del ataque rival .</li>
+          
+        <li>Técnica 9 (Anticipación o lectura de juego): Observar los movimientos del atacante rival (hombros, brazo, muñeca) para predecir hacia dónde va a rematar. Fundamental para una buena defensa.</li>
+          
+        <li>Técnica 10 (Desplazamiento lateral en defensa): Moverse rápido de un lado a otro con pasos cortos (paso de arrastre) para llegar al balón. Las rodillas semiflexionadas y el peso en las puntas de los pies.</li>
+          
+        <li>Técnica 11 (Pase de dedos en suspensión): El colocador salta ligeramente para alcanzar un balón alto y poder colocarlo con mayor precisión. Se usa cuando el primer pase no es perfecto.</li>
+          
+        <li>Técnica 12 (Remate con muñeca): Al golpear el balón, se usa un movimiento rápido de muñeca para dar dirección y efecto, haciendo que el balón caiga más rápido o cambie de trayectoria.</li>
+          
+        <li>Técnica 13 (Cobertura de cancha - sistema defensivo): Los 3 jugadores cubren el campo completo: el volador cerca de la red (bloqueo/ataque), colocador en el medio (pases), servidor en el fondo (defensa).</li>
+          
+        <li>Técnica 14 (Pase de espaldas): El colocador, cuando el balón le llega por detrás, puede realizar un pase de dedos por encima de la cabeza hacia atrás. Requiere mucha práctica y coordinación.</li>
+          
+        <li>Técnica 15 (Golpe de antebrazos con una mano): En situaciones de emergencia (balón muy lejos o bajo), se puede recibir con un solo antebrazo extendido. Menos controlado pero permite salvar balones difíciles.</li>
+          
+      </ol>
+    </div>
+    <div class="info">
+      <h2>Ejercicios para mejorar</h2>
+      <ol>
+        <li>Ejercicio 1 (Pases de antebrazos contra pared - mancheta): Golpear el balón contra una pared con los antebrazos repetidamente, manteniendo el control y la posición. Haz 3 series de 20 repeticiones .</li>
+          
+        <li>Ejercicio 2 (Pases de dedos contra pared - voleo): Hacer voleos de dedos contra la pared, controlando altura y dirección del balón. Haz 3 series de 20 repeticiones .</li>
+          
+        <li>Ejercicio 3 (Toque de dedos a uno mismo sin que caiga): Lanzar el balón hacia arriba y hacer pases de dedos a uno mismo manteniéndolo en el aire. 3 series de 30 segundos .</li>
+          
+        <li>Ejercicio 4 (Saques a zona marcada): Colocar conos o aros en el campo contrario e intentar que el saque caiga dentro de esa zona. 10 saques de cada tipo (abajo/arriba) .</li>
+          
+        <li>Ejercicio 5 (Recepción de saques en parejas): Un compañero te saca desde el otro lado de la red. Recibes con mancheta y diriges el balón hacia una zona marcada. 20 recepciones .</li>
+          
+        <li>Ejercicio 6 (Recepción de remates desde el fondo): Un compañero remata desde su campo y tú, desde el fondo del tuyo, recibes el remate con mancheta. 15 recepciones x 3 series .</li>
+          
+        <li>Ejercicio 7 (Bloqueo frente a la red sin balón): Saltar frente a la red con brazos extendidos verticalmente, simulando el bloqueo. 15 saltos x 3 series. Mejora la altura del bloqueo.</li>
+          
+        <li>Ejercicio 8 (Ejercicio de colocación con precisión): El entrenador lanza balones altos al colocador, quien debe enviarlos a una zona específica cerca de la red (donde ataca el volador). 20 colocaciones .</li>
+          
+        <li>Ejercicio 9 (Remate desde posición de colocador): El colocador lanza balón alto al volador, quien salta y remata hacia la zona contraria. El otro jugador (servidor) defiende. 20 remates .
+
+</li>
+          
+        <li>Ejercicio 10 (Circuito de 2 toques en media cancha): Juego reducido donde cada equipo debe usar exactamente 2 toques por posesión. Obliga a pensar rápido y coordinar los movimientos .</li>
+          
+        <li>Ejercicio 11 (Rotación de posiciones en cada punto): Jugar un partido donde después de cada punto los jugadores rotan posiciones (todos aprenden a colocador, volador y servidor). 15 minutos .</li>
+          
+        <li>Ejercicio 12 (Defensa de campo completo 3 contra 1): Un atacante remata desde su campo, 3 defensores intentan recibir y devolver con 2 toques. Cambiar atacante cada 5 remates .</li>
+          
+        <li>Ejercicio 13 (Pase y ataque en cadena - combinación ofensiva): Secuencia: pase del servidor → colocación del colocador → remate del volador. Los 3 jugadores participan en una misma jugada ofensiva .</li>
+          
+        <li>Ejercicio 14 (Juego de 3 contra 3 con regla de saque obligatorio de arriba): Solo se permite saque de arriba con salto. Obliga a los jugadores a practicar el saque más potente en situación real de partido .</li>
+          
+        <li>Ejercicio 15 (Desplazamientos laterales con recepción): Colocar dos conos separados 3 metros. Desplazarse lateralmente de un cono a otro y al llegar recibir un pase/saque. 10 desplazamientos x 3 series .</li>
+          
+      </ol>
+    </div>
+  </div>
+</div>
+
+<button id="modoOscuro" title="Modo oscuro">🌙</button>
+
+<script>
+function openMenu(){document.getElementById("sidebar").style.width="260px";}
+function closeMenu(){document.getElementById("sidebar").style.width="0";}
+
+const btn=document.getElementById("modoOscuro");
+btn.onclick=()=>{
+  document.body.classList.toggle("dark");
+  btn.textContent=document.body.classList.contains("dark")?"☀️":"🌙";
+};
+
+window.addEventListener('scroll',()=>{
+  const st=document.documentElement.scrollTop||document.body.scrollTop;
+  const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  document.getElementById('progress-bar').style.width=(st/sh*100)+'%';
+});
+
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.08});
+document.querySelectorAll('.section').forEach(s=>observer.observe(s));
+
+document.addEventListener('click',e=>{
+  const sb=document.getElementById('sidebar');
+  if(sb.style.width==='260px'&&!sb.contains(e.target)&&!e.target.classList.contains('menu-btn'))
+    closeMenu();
+});
+</script>
+</body>
+</html>

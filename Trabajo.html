@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deportes - U.E UNEDID</title>
+<link rel="icon" href="Icno.ico" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;
+  padding:0;
+  box-sizing:border-box;}
+body{
+    font-family:'Poppins',Arial,sans-serif;
+    background:#0f0f1a;
+    background-image:
+        radial-gradient(ellipse at 15% 10%,rgba(59,130,246,0.09) 0%,transparent 60%),
+        radial-gradient(ellipse at 85% 85%,rgba(139,92,246,0.09) 0%,transparent 60%);
+    min-height:100vh;
+    padding:50px 24px 60px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.bg-dots{
+    position:fixed;
+    top:0;left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:0;
+    background-image:radial-gradient(rgba(255,255,255,0.025) 1px,transparent 1px);
+    background-size:30px 30px;
+    }
+#progress-bar{
+    position:fixed;
+    top:0;left:0;
+    height:3px;
+    width:0%;
+    z-index:3000;
+    background:linear-gradient(90deg,#3b82f6,#8b5cf6,#ec4899,#facc15);
+    transition:width 0.1s;
+}
+.contenedor{
+position:relative;z-index:1;
+background:#fff;
+max-width:900px;width:100%;
+padding:50px 44px;
+border-radius:24px;
+box-shadow:0 24px 70px rgba(0,0,0,0.22);
+overflow:hidden;
+}
+.contenedor::before{
+content:'';position:absolute;top:0;left:0;right:0;height:5px;
+background:linear-gradient(90deg,#3b82f6,#8b5cf6,#ec4899,#facc15);
+background-size:300% 100%;
+animation:barSlide 4s linear infinite;
+}
+@keyframes barSlide{
+    0%{background-position:0% 50%}
+    100%{background-position:300% 50%}}
+h1{
+text-align:center;margin-bottom:36px;line-height:1.2;
+font-size:clamp(1.6rem,4vw,2.6rem);font-weight:900;
+background:linear-gradient(135deg,#1e3a8a,#3b82f6,#8b5cf6,#ec4899);
+background-size:200% auto;
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+animation:titleGradient 4s ease infinite;
+filter:drop-shadow(0 0 18px rgba(59,130,246,0.2));
+}
+@keyframes titleGradient{
+  0%{background-position:0% center}50%{background-position:100% center}100%{background-position:0% center}
+}
+h1::after{
+  content:'';display:block;height:4px;border-radius:2px;
+  margin:12px auto 0;width:80px;
+  background:linear-gradient(90deg,#3b82f6,#8b5cf6,#ec4899);
+  background-size:200%;animation:lineSlide 3s ease infinite;
+}
+@keyframes lineSlide{
+  0%{width:60px;background-position:0%}
+  50%{width:150px;background-position:100%}
+  100%{width:60px;background-position:0%}
+}
+h1:hover{animation:shimmer 1.5s ease infinite,titleGradient 4s ease infinite;}
+@keyframes shimmer{
+  0%{filter:drop-shadow(0 0 18px rgba(59,130,246,0.2))}
+  50%{filter:drop-shadow(0 0 32px rgba(139,92,246,0.6)) drop-shadow(0 0 10px rgba(236,72,153,0.4))}
+  100%{filter:drop-shadow(0 0 18px rgba(59,130,246,0.2))}
+}
+h2{
+  position:relative;
+  font-size:1.25rem;font-weight:700;
+  margin:36px 0 14px;padding-bottom:10px;
+  background:linear-gradient(135deg,#1e3a8a,#3b82f6,#8b5cf6);
+  background-size:200% auto;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:titleGradient 5s ease infinite;
+  filter:drop-shadow(0 0 10px rgba(59,130,246,0.12));
+}
+h2::after{
+  content:'';position:absolute;bottom:0;left:0;
+  height:2.5px;border-radius:2px;
+  background:linear-gradient(90deg,#3b82f6,#8b5cf6,#ec4899);
+  background-size:200%;animation:lineSlide 3.5s ease infinite;
+}
+h2:hover{animation:shimmer 1.5s ease infinite,titleGradient 5s ease infinite;}
+p{
+  text-align:justify;line-height:1.8;
+  color:#475569;font-size:0.97rem;margin-bottom:12px;
+}
+p strong{
+  color:#1e293b;
+  background:linear-gradient(135deg,#1e3a8a,#3b82f6);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  font-weight:700;
+}
+ul{
+  margin:10px 0 14px 0;padding-left:0;list-style:none;
+}
+ul li{
+  display:flex;gap:10px;align-items:flex-start;
+  color:#475569;font-size:0.95rem;line-height:1.7;margin-bottom:10px;
+}
+ul li::before{
+  content:'▸';
+  color:#8b5cf6;font-size:1rem;flex-shrink:0;margin-top:2px;
+}
+ul li strong{
+  background:linear-gradient(135deg,#1e3a8a,#3b82f6);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.dere-historia{
+  float:right;width:clamp(220px,45%,460px);
+  margin:0 0 18px 22px;padding:6px;
+  border-radius:14px;
+  box-shadow:0 10px 28px rgba(0,0,0,0.15);
+  border:1.5px solid rgba(139,92,246,0.15);
+  transition:transform 0.4s,box-shadow 0.4s;
+}
+.izqui-historia{
+  float:left;width:clamp(220px,45%,460px);
+  margin:0 22px 18px 0;padding:6px;
+  border-radius:14px;
+  box-shadow:0 10px 28px rgba(0,0,0,0.15);
+  border:1.5px solid rgba(139,92,246,0.15);
+  transition:transform 0.4s,box-shadow 0.4s;
+}
+.dere-historia:hover,.izqui-historia:hover{
+  transform:scale(1.04) rotate(-1deg);
+  box-shadow:0 18px 40px rgba(59,130,246,0.2);
+}
+.clearfix::after{content:'';display:table;clear:both;}
+.ruta-box{
+  display:inline-block;
+  background:linear-gradient(135deg,rgba(59,130,246,0.07),rgba(139,92,246,0.07));
+  border-left:3px solid #8b5cf6;border-radius:0 10px 10px 0;
+  padding:8px 16px;margin:6px 0 12px;
+  color:#1e293b;font-weight:700;font-size:0.97rem;
+  font-family:'Courier New',monospace;
+  box-shadow:0 2px 10px rgba(139,92,246,0.08);
+}
+.botones{
+  display:flex;flex-wrap:wrap;gap:14px;
+  margin-top:36px;justify-content:center;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+  color:#fff;padding:13px 28px;
+  font-size:0.95rem;font-weight:600;letter-spacing:0.5px;
+  border:none;border-radius:50px;cursor:pointer;
+  text-decoration:none;
+  box-shadow:0 6px 20px rgba(139,92,246,0.35);
+  transition:all 0.3s ease;
+}
+.btn:hover{
+  transform:translateY(-3px) scale(1.05);
+  box-shadow:0 10px 30px rgba(139,92,246,0.5);
+}
+.btn.secondary{
+  background:linear-gradient(135deg,#ec4899,#f97316);
+  box-shadow:0 6px 20px rgba(236,72,153,0.3);
+}
+.btn.secondary:hover{
+  box-shadow:0 10px 30px rgba(236,72,153,0.5);
+}
+#modoOscuro{
+  position:fixed;bottom:30px;left:28px;z-index:1000;
+  padding:12px 14px;border-radius:50%;border:none;cursor:pointer;
+  background:linear-gradient(135deg,#1e1b4b,#312e81);
+  font-size:18px;box-shadow:0 4px 20px rgba(139,92,246,0.35);
+  transition:transform 0.3s,box-shadow 0.3s;
+}
+#modoOscuro:hover{transform:scale(1.15) rotate(20deg);box-shadow:0 8px 30px rgba(139,92,246,0.5);}
+body.dark{background:#07070f;}
+body.dark .contenedor{background:#111827;box-shadow:0 24px 70px rgba(0,0,0,0.5);}
+body.dark p{color:#94a3b8;}
+body.dark p strong{-webkit-text-fill-color:unset;background:none;color:#93c5fd;}
+body.dark ul li{color:#94a3b8;}
+body.dark .ruta-box{background:rgba(139,92,246,0.12);color:#c4b5fd;}
+</style>
+</head>
+
+<body>
+<div class="bg-dots"></div>
+<div id="progress-bar"></div>
+<button id="modoOscuro">🌙</button>
+
+<div class="contenedor">
+
+  <h1>Guía Completa para Usar XAMPP</h1>
+
+  <h2>1️⃣ ¿Cómo se descarga XAMPP?</h2>
+  <div class="clearfix">
+    <img src="cap1.PNG" class="dere-historia" alt="Descarga XAMPP" onerror="this.style.display='none'">
+    <p>Primeramente, XAMPP debe estar correctamente descargado e instalado en la máquina. Para ello, se debe ingresar a la página oficial de <strong>Apache Friends</strong> y descargar la versión correspondiente al sistema operativo. Una vez descargado el instalador, se ejecuta y se siguen los pasos del asistente hasta finalizar la instalación.</p>
+  </div>
+
+  <h2>2️⃣ ¿Cómo se configura XAMPP para ejecutar una página web?</h2>
+  <div class="clearfix">
+    <img src="cap2.PNG" class="izqui-historia" alt="Panel de control XAMPP" onerror="this.style.display='none'">
+    <p>Después de instalarlo, se debe abrir el <strong>Panel de Control de XAMPP</strong> ejecutándolo como administrador para evitar problemas de permisos. En el panel aparecerán varios servicios, pero los más importantes son:</p>
+    <ul>
+      <li><strong>Apache:</strong> servidor local que simula un servidor web.</li>
+      <li><strong>MySQL:</strong> gestor de bases de datos.</li>
+    </ul>
+    <p>Se debe presionar el botón <strong>Start</strong> en ambos servicios. Si se ponen en color verde, significa que están funcionando correctamente.</p>
+  </div>
+
+  <h2>3️⃣ ¿Cómo se accede a la página web en el navegador?</h2>
+  <div class="clearfix">
+    <img src="cap3.PNG" class="izqui-historia" alt="Ruta htdocs" onerror="this.style.display='none'">
+    <p>Para que la página se muestre en el navegador, se debe ubicar correctamente los archivos. Se debe ingresar a la ruta:</p>
+    <div class="ruta-box">C:\xampp\htdocs</div>
+    <p>Dentro de la carpeta <strong>htdocs</strong> se crea una nueva carpeta con el nombre del proyecto. Allí se colocan los archivos HTML, CSS, JavaScript, imágenes, etc.</p>
+    <p>Luego, se abre un navegador (Chrome, Firefox, Edge, Opera, etc.) y se escribe:</p>
+    <div class="ruta-box">http://localhost/nombrecarpeta</div>
+    <p>Ejemplo:</p>
+    <div class="ruta-box">http://localhost/paginaweb</div>
+    <p>Si no abre directamente, se puede escribir el nombre del archivo:</p>
+    <div class="ruta-box">http://localhost/paginaweb/inicio.html</div>
+    <p>Si se trabaja con PHP, XAMPP ejecutará automáticamente el código y permitirá visualizar resultados dinámicos.</p>
+  </div>
+
+  <h2>4️⃣ ¿Cómo se trabaja con bases de datos en XAMPP?</h2>
+  <p>Para trabajar con bases de datos, se debe acceder a:</p>
+  <div class="ruta-box">http://localhost/phpmyadmin</div>
+  <p>Desde allí se pueden crear bases de datos, tablas y administrar la información del sitio web. <strong>MySQL</strong> será el encargado de gestionar estos datos.</p>
+
+  <h2>5️⃣ Actualización de cambios</h2>
+  <p>Cuando se realizan cambios en los archivos, solo es necesario guardar y presionar <strong>F5</strong> o el botón de recargar en el navegador. No es necesario reiniciar el servidor, a menos que se agreguen o eliminen servicios en XAMPP.</p>
+
+  <div class="botones">
+    <a href="index.html" class="btn">⬅ Regresar</a>
+    <a href="Deportes.html" class="btn secondary">🥇 Deportes</a>
+    <a href="juegos.html" class="btn secondary">🎮 Juegos</a>
+  </div>
+
+</div>
+
+<script>
+const btn=document.getElementById("modoOscuro");
+btn.onclick=()=>{
+  document.body.classList.toggle("dark");
+  btn.textContent=document.body.classList.contains("dark")?"☀️":"🌙";
+};
+window.addEventListener('scroll',()=>{
+  const st=document.documentElement.scrollTop||document.body.scrollTop;
+  const sh=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  document.getElementById('progress-bar').style.width=(st/sh*100)+'%';
+});
+</script>
+</body>
+</html>
